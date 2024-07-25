@@ -13,7 +13,7 @@ const NavItem = ({ image, navItem, navPath }) => {
                 <h3>{navItem}</h3>
             </NavLink> : 
             <NavLink to={navPath} className = {({ isActive }) =>
-            isActive ? "flex gap-2 items-center py-2 pl-2 bg-white text-blue-500 rounded-s-full" : "flex gap-2 items-center py-2 pl-2"
+            isActive ? "flex gap-2 items-center py-2 pl-2 bg-white text-blue-500 rounded-s-full transition-all duration-300 ease-in" : "flex gap-2 items-center py-2 pl-2 transition-all duration-300 ease-out"
   }>
                 {image}
                 <h3>{navItem}</h3>
