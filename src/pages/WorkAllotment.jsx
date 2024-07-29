@@ -3,7 +3,7 @@ import { useState } from 'react'
 
 
 const WorkAllotment = () => {
-
+  const [currentDate,setCurrentDate] = useState(null)
   const [shiftValue, setShiftValue] = useState('Select Shift')
   const [currentShiftMemebers, setcurrentShiftMemebers]=useState('')
 
@@ -13,6 +13,9 @@ const WorkAllotment = () => {
 
   function handleShiftChange(event) {
     setShiftValue(event.target.value);
+    const todayDate = new Date();
+    const properDate=`${todayDate.getMonth()+1}/${todayDate.getDate()}/${todayDate.getFullYear()}`
+    setCurrentDate(properDate)
   }
   useEffect(() => {
     getHandoverData()
@@ -40,7 +43,7 @@ const WorkAllotment = () => {
   return (
     <div className='p-4 font-poppins w-full'>
       <div className='flex justify-between items-center'>
-        <h1 className='font-semibold text-gray-600 text-xl'>COPS-WorkAlloment {shiftValue === 'Select Shift' ? null : shiftValue}</h1>
+        <h1 className='font-semibold text-gray-600 text-xl'>COPS-WorkAlloment {shiftValue === 'Select Shift' ? null : `${shiftValue} `}{currentDate}</h1>
         <div className='flex gap-2'>
           <select name="shifts" defaultValue={shiftValue} onChange={handleShiftChange} id="shifts" className='border-2 border-black rounded-md outline-none'>
             <option value="" className='hidden'>Select Shift</option>
