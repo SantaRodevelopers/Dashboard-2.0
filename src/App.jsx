@@ -8,8 +8,8 @@ const App = () => {
 
   return (
     <>
-      <div className='flex'>
-      <div className='h-screen w-1/5'>
+      <div className='flex w-full'>
+      <div className='h-screen w-1/5 sticky top-0'>
         <Navbar />
       </div>
       <NavRoutes/>

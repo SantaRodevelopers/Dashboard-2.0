@@ -19,9 +19,9 @@ const Navbar = () => {
         {image: <IoMdNotificationsOutline  size={'20px'}/>,item: "Notification",id:6,navLink:'/notification'}
     ]
   return (
-    <div className='bg-blue-600 w-full py-3 pl-3 text-white h-full'>
-        <div className="logo mb-4">Logo</div>
-        <div className='flex flex-col font-poppins text-[15px]'>
+    <div className='bg-blue-600 w-full py-2 text-white h-full relative'>
+        <div className="logo ml-2 mb-4">Logo</div>
+        <div className=' font-poppins text-[15px]'>
            {adminItems.map((item)=>{
                 return <NavItem image = {item.image} navItem = {item.item} key={item.id} navPath = {item.navLink}/>
            })}
