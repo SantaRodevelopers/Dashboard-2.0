@@ -2,7 +2,9 @@ import React from 'react'
 
 const HistoricData = () => {
   return (
-    <div>HistoricData</div>
+    <div className='w-full'>
+      <div>HistoricData</div>
+    </div>
   )
 }
 

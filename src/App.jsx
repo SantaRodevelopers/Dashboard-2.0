@@ -9,11 +9,11 @@ const App = () => {
   return (
     <>
       <div className='flex w-full'>
-      <div className='h-screen w-1/5 sticky top-0'>
-        <Navbar />
+        <div className='h-screen w-1/4 sticky top-0'>
+          <Navbar />
+        </div>
+        <NavRoutes />
       </div>
-      <NavRoutes/>
-    </div>
     </>
   )
 }

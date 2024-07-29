@@ -2,7 +2,9 @@ import React from 'react'
 
 const ShiftPlanner = () => {
   return (
-    <div>ShiftPlanner</div>
+    <div className='w-full'>
+      <div>ShiftPlanner</div>
+    </div>
   )
 }
 

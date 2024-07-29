@@ -2,7 +2,9 @@ import React from 'react'
 
 const AboutShifts = () => {
   return (
-    <div>AboutShits</div>
+    <div className='w-full'>
+      <div>AboutShits</div>
+    </div>
   )
 }
 
