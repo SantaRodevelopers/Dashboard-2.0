@@ -1,0 +1,142 @@
+[
+    {
+        "id": 1,
+        "clientName": "SSIS Custom Service Notification",
+        "isAssigned": false
+    },
+    {
+        "id": 2,
+        "clientName": "AbbVie",
+        "isAssigned": false
+    },
+    {
+        "id": 3,
+        "clientName": "Ameriprise",
+        "isAssigned": false
+    },
+    {
+        "id": 4,
+        "clientName": "Auto (Ford, Hyundai, Toyota)",
+        "isAssigned": false
+    },
+    {
+        "id": 5,
+        "clientName": "Chase (BAU)",
+        "isAssigned": false
+    },
+    {
+        "id": 6,
+        "clientName": "Chase (Disposition Report)",
+        "isAssigned": false
+    },
+    {
+        "id": 7,
+        "clientName": "Citi (BAU)",
+        "isAssigned": false
+    },
+    {
+        "id": 8,
+        "clientName": "Citi (Reconciliation Status Report)",
+        "isAssigned": false
+    },
+    {
+        "id": 9,
+        "clientName": "Dell (UCVM)",
+        "isAssigned": false
+    },
+    {
+        "id": 10,
+        "clientName": "Ed Jones (BAU)",
+        "isAssigned": false
+    },
+    {
+        "id": 11,
+        "clientName": "Ed Jones (Disposition Status Report Monitoring)",
+        "isAssigned": false
+    },
+    {
+        "id": 12,
+        "clientName": "General Motors",
+        "isAssigned": false
+    },
+    {
+        "id": 13,
+        "clientName": "JPM Chase (DX)",
+        "isAssigned": false
+    },
+    {
+        "id": 14,
+        "clientName": "JPM Chase (DX) (Status Reporting)",
+        "isAssigned": false
+    },
+    {
+        "id": 15,
+        "clientName": "LampsPlus",
+        "isAssigned": false
+    },
+    {
+        "id": 16,
+        "clientName": "Lundbeck",
+        "isAssigned": false
+    },
+    {
+        "id": 17,
+        "clientName": "Ameriprise",
+        "isAssigned": false
+    },
+    {
+        "id": 18,
+        "clientName": "Marriott & METT (BAU)",
+        "isAssigned": false
+    },
+    {
+        "id": 19,
+        "clientName": "Marriott & METT (Auto/Adhoc/Mett Status Report)",
+        "isAssigned": false
+    },
+    {
+        "id": 20,
+        "clientName": "Marriott & METT (Marriott GDRP Request)",
+        "isAssigned": false
+    },
+    {
+        "id": 21,
+        "clientName": "Nissan",
+        "isAssigned": false
+    },
+    {
+        "id": 22,
+        "clientName": "Sephora",
+        "isAssigned": false
+    },
+    {
+        "id": 23,
+        "clientName": "Starhub",
+        "isAssigned": false
+    },
+    {
+        "id": 24,
+        "clientName": "Synchrony",
+        "isAssigned": false
+    },
+    {
+        "id": 25,
+        "clientName": "Valvoline",
+        "isAssigned": false
+    },
+    {
+        "id": 26,
+        "clientName": "AOL",
+        "isAssigned": false
+    },
+    {
+        "id": 27,
+        "clientName": "WellsFargo",
+        "isAssigned": false
+    },
+    {
+        "id": 28,
+        "clientName": "Yves Rocher",
+        "isAssigned": false
+    }
+]

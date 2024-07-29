@@ -1,20 +1,21 @@
 import React, { useEffect } from 'react'
 import { useState } from 'react'
+import AllotmentRows from '../components/AllotmentRows'
 
 
 const WorkAllotment = () => {
-  const [currentDate,setCurrentDate] = useState(null)
+  const [currentDate, setCurrentDate] = useState(null)
   const [shiftValue, setShiftValue] = useState('Select Shift')
-  const [currentShiftMemebers, setcurrentShiftMemebers]=useState('')
+  const [currentShiftMemebers, setcurrentShiftMemebers] = useState('')
 
-  let shiftMembers=[]
+  let shiftMembers = []
 
 
 
   function handleShiftChange(event) {
     setShiftValue(event.target.value);
     const todayDate = new Date();
-    const properDate=`${todayDate.getMonth()+1}/${todayDate.getDate()}/${todayDate.getFullYear()}`
+    const properDate = `${todayDate.getMonth() + 1}/${todayDate.getDate()}/${todayDate.getFullYear()}`
     setCurrentDate(properDate)
   }
   useEffect(() => {
@@ -25,20 +26,22 @@ const WorkAllotment = () => {
     try {
       const response = await fetch('src/utils/shiftmemebersdata.json')
       shiftMembers = await response.json()
-      if (shiftMembers.length>0) {
-        setcurrentShiftMemebers(abc())
+      if (shiftMembers.length > 0) {
+        setcurrentShiftMemebers(getCurrentShiftMembers())
       }
     } catch (error) {
       console.log(error);
     }
   }
 
-  function abc(){
-   const temp=shiftMembers.filter((ele)=>{
-     return ele.shift ==shiftValue
+  function getCurrentShiftMembers() {
+    const temp = shiftMembers.filter((ele) => {
+      return ele.shift === shiftValue
     })
     return temp
   }
+
+  console.log(currentShiftMemebers);
 
   return (
     <div className='p-4 font-poppins w-full'>
@@ -57,8 +60,15 @@ const WorkAllotment = () => {
       </div>
 
       <div>
-        <div></div>
-        <div></div>
+        <table className='mt-6 w-full border-2 border-white border-separate'>
+          <tr>
+            <th className='p-2 bg-blue-600 text-white rounded-s-lg w-1/4'>Shift Members</th>
+            <th className='p-2 bg-blue-600 text-white rounded-r-lg'>Custom Clients</th>
+          </tr>
+            {currentShiftMemebers ? currentShiftMemebers.map((emp, index) => {
+              return <AllotmentRows empname={emp.empname} key={emp.id} idx={index} />
+            }) : ''}
+        </table>
       </div>
 
     </div>
