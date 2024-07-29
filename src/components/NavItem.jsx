@@ -3,7 +3,7 @@ import { Link, NavLink } from 'react-router-dom'
 
 
 const NavItem = ({ image, navItem, navPath }) => {
-    console.log(navPath);
+
     return (
         <>
             {navItem == 'Notification' ? <NavLink to={navPath} className={({ isActive }) =>

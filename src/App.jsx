@@ -1,7 +1,7 @@
 import React from 'react'
 import Navbar from './components/Navbar'
 import NavRoutes from './NavRoutes'
-
+import UserProfile from "./components/UserProfile";
 
 const App = () => {
 
@@ -11,6 +11,7 @@ const App = () => {
       <div className='flex w-full'>
         <div className='h-screen w-1/4 sticky top-0'>
           <Navbar />
+          
         </div>
         <NavRoutes />
       </div>

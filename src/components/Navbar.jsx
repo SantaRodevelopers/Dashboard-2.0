@@ -7,6 +7,7 @@ import { MdOutlineHistory } from "react-icons/md";
 import { PiBooksLight } from "react-icons/pi";
 import { IoMdNotificationsOutline } from "react-icons/io";
 import NavItem from './NavItem';
+import UserProfile from './UserProfile';
 
 const Navbar = () => {
     const [navItems, setNavItems] = useState([]);
@@ -25,6 +26,8 @@ const Navbar = () => {
            {adminItems.map((item)=>{
                 return <NavItem image = {item.image} navItem = {item.item} key={item.id} navPath = {item.navLink}/>
            })}
+          <UserProfile className='h-screen w-1/4 sticky top-0' />
+
         </div>
     </div>
   )
