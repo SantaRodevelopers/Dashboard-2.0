@@ -7,20 +7,22 @@ const WorkAllotment = () => {
   const [currentDate, setCurrentDate] = useState(null)
   const [shiftValue, setShiftValue] = useState('Select Shift')
   const [currentShiftMemebers, setcurrentShiftMemebers] = useState('')
-
+  const [optionsTags,setOptionsTags] = useState([]);
   let shiftMembers = []
 
 
 
-  function handleShiftChange(event) {
+function handleShiftChange(event) {
     setShiftValue(event.target.value);
     const todayDate = new Date();
     const properDate = `${todayDate.getMonth() + 1}/${todayDate.getDate()}/${todayDate.getFullYear()}`
     setCurrentDate(properDate)
   }
   useEffect(() => {
-    getHandoverData()
+    getHandoverData();
+    getClientLists();
   }, [shiftValue])
+
 
   async function getHandoverData() {
     try {
@@ -41,7 +43,28 @@ const WorkAllotment = () => {
     return temp
   }
 
-  console.log(currentShiftMemebers);
+  async function getClientLists(){
+    const resp = await fetch('src/utils/clients.json');
+    const clients = await resp.json();
+    setOptionTagsFunc(clients);
+  }
+
+  function filteredClientLists(selectedTags){
+    const filterTags = optionsTags.filter((tag)=>{
+      return !selectedTags.includes(tag.clientName);
+    })
+    setOptionTagsFunc(filterTags);
+  }
+
+  function addRemovedTags(tags){
+    setOptionsTags([...optionsTags,tags]);
+  }
+
+  
+  function setOptionTagsFunc(tags){
+    setOptionsTags(tags);
+    console.log(optionsTags);
+  }
 
   return (
     <div className='p-4 font-poppins w-full'>
@@ -65,9 +88,10 @@ const WorkAllotment = () => {
             <th className='p-2 bg-blue-600 text-white rounded-s-lg w-1/4'>Shift Members</th>
             <th className='p-2 bg-blue-600 text-white rounded-r-lg'>Custom Clients</th>
           </tr>
-            {currentShiftMemebers ? currentShiftMemebers.map((emp, index) => {
-              return <AllotmentRows empname={emp.empname} key={emp.id} idx={index} />
+          {currentShiftMemebers ? currentShiftMemebers.map((emp, index) => {
+              return <AllotmentRows empname={emp.empname} key={emp.id} idx={index} optionsTags={optionsTags} filteredClientLists={filteredClientLists} addRemovedTags={addRemovedTags}/>
             }) : ''}
+
         </table>
       </div>
 
