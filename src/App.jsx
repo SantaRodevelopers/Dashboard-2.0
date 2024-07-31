@@ -3,8 +3,11 @@ import Navbar from './components/Navbar'
 import NavRoutes from './NavRoutes'
 import UserProfile from "./components/UserProfile";
 
-const App = () => {
 
+
+
+const App = () => {
+    
 
   return (
     <>
