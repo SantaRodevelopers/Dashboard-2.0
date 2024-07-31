@@ -8,9 +8,16 @@ const WorkAllotment = () => {
   const [shiftValue, setShiftValue] = useState('Select Shift')
   const [currentShiftMemebers, setcurrentShiftMemebers] = useState('')
   const [optionsTags,setOptionsTags] = useState([]);
+
+  let tempArr = [];
+
+  const [isShared,setIsShared] = useState(false);
+
   let shiftMembers = []
 
-
+useEffect(()=>{
+  handleAllData(); // to overcome two timeshare 
+},[isShared])
 
 function handleShiftChange(event) {
     setShiftValue(event.target.value);
@@ -18,6 +25,7 @@ function handleShiftChange(event) {
     const properDate = `${todayDate.getMonth() + 1}/${todayDate.getDate()}/${todayDate.getFullYear()}`
     setCurrentDate(properDate)
   }
+
   useEffect(() => {
     getHandoverData();
     getClientLists();
@@ -63,7 +71,21 @@ function handleShiftChange(event) {
   
   function setOptionTagsFunc(tags){
     setOptionsTags(tags);
-    console.log(optionsTags);
+  }
+
+  function allotedClients(singleMember){
+    tempArr.push(...singleMember);
+  }
+
+  function handleAllData(){
+    setTimeout(()=>{
+      console.log(tempArr);
+    },500)
+  }
+
+  function handleShare(){
+    setIsShared(prev=>!prev);
+    handleAllData();
   }
 
   return (
@@ -77,7 +99,7 @@ function handleShiftChange(event) {
             <option value="EMEA">EMEA</option>
             <option value="NA">NA</option>
           </select>
-          <button className='py-1 px-3 bg-blue-500 rounded-md text-white'>Share</button>
+          <button className='py-1 px-3 bg-blue-500 rounded-md text-white' onClick={handleShare}>Share</button>
         </div>
 
       </div>
@@ -89,7 +111,7 @@ function handleShiftChange(event) {
             <th className='p-2 bg-blue-600 text-white rounded-r-lg'>Custom Clients</th>
           </tr>
           {currentShiftMemebers ? currentShiftMemebers.map((emp, index) => {
-              return <AllotmentRows empname={emp.empname} key={emp.id} idx={index} optionsTags={optionsTags} filteredClientLists={filteredClientLists} addRemovedTags={addRemovedTags}/>
+              return <AllotmentRows empname={emp.empname} key={emp.id} idx={index} optionsTags={optionsTags} filteredClientLists={filteredClientLists} addRemovedTags={addRemovedTags} allotedClients={allotedClients} handleShare={handleShare} isShared={isShared}/>
             }) : ''}
 
         </table>
