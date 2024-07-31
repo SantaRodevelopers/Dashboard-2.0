@@ -13,7 +13,7 @@ const WorkAllotment = () => {
 
   const [isShared,setIsShared] = useState(false);
 
-  let shiftMembers = []
+  let shiftMembers = [];
 
 useEffect(()=>{
   handleAllData(); // to overcome two timeshare 
