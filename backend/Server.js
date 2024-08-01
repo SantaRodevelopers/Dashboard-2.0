@@ -20,7 +20,7 @@ app.post('/send-email', (req, res) => {
 
   const mailOptions = {
     from: 'springboot.developers@gmail.com', // Replace with your email
-    to: 'sk2088458@gmail.com;rohitrk21122000@gmail.com;cops@epsilon.com;', // Replace with recipient email or make it dynamic sk2088458@gmail.com;rohitrk21122000@gmail.com
+    to: 'sk2088458@gmail.com;rohitrk21122000@gmail.com', // Replace with recipient email or make it dynamic sk2088458@gmail.com;rohitrk21122000@gmail.com
     subject: subject,
     html: body
     

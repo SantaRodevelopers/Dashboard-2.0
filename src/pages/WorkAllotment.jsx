@@ -3,6 +3,7 @@ import { useState } from 'react'
 import AllotmentRows from '../components/AllotmentRows'
 import SelectHandoverMember from '../components/SelectHandoverMember'
 import { toast } from 'sonner';
+import Shiftmembersdetails from '../components/Shiftmembersdetails';
 
 const WorkAllotment = () => {
   const [currentDate, setCurrentDate] = useState(null)
@@ -12,12 +13,17 @@ const WorkAllotment = () => {
   const [toolsTags, setToolsTags] = useState([])
   const [count, setCount] = useState(0)
   const [HandoverMember, setHandoverMember] = useState('')
+  const [toolsFlag, setToolsFlag] = useState(false)
+  const [monitoringTags, setMonitoringTags] = useState(false)
+  const [scrollFlag,setScrollFlag]=useState(false)
+
+
   let space = " - "
   let tempArr = [];
   let toolsArr = []
   let slNo = 1;
 
-// To generate the email body for mail
+  // To generate the email body for mail
   const generateEmailBody = () => {
     let emailBody = `<table border="1" style="border-collapse: collapse; margin-bottom:10px; "><tr><td style="background-color: #2D3250; color:white; font-weight:bold;padding:10px;text-align:center;">Work Allotment</td><td style="padding:10px;text-align:center;">Vedhitha/Roshan</td></tr><tr><td style="background-color: #2D3250; color:white;font-weight:bold;padding:10px;text-align:center;">Shift Handover</td><td style="padding:10px;text-align:center;">${HandoverMember}</td></tr></table>`
     emailBody += '<table border="1" style="border-collapse: collapse;">';
@@ -43,7 +49,7 @@ const WorkAllotment = () => {
   };
 
 
-// To get subject and body for mail
+  // To get subject and body for mail
   const handleSendEmail = (count) => {
     const subject = `COPS-WorkAlloment ${shiftValue === 'Select Shift' ? null : shiftValue} ${space} ${currentDate}`;
     const body = generateEmailBody();
@@ -53,8 +59,8 @@ const WorkAllotment = () => {
     }
     else {
       const date = new Date();
-      const maindate = ` ${date.getMonth() + 1}/${date.getDate()}/${date.getFullYear()+ " "+ date.getHours() + ":" 
-      + date.getMinutes() + ":" + date.getSeconds()}`
+      const maindate = ` ${date.getMonth() + 1}/${date.getDate()}/${date.getFullYear() + " " + date.getHours() + ":"
+        + date.getMinutes() + ":" + date.getSeconds()}`
 
       fetch('http://localhost:5000/send-email', {
         method: 'POST',
@@ -64,11 +70,12 @@ const WorkAllotment = () => {
         body: JSON.stringify({ subject, body })
       })
         .then(response => response.text())
-        .then(result => toast.success('Email Sent..',{
-          description: `Mail sent at ${maindate}`}))
-        
+        .then(result => toast.success('Email Sent..', {
+          description: `Mail sent at ${maindate}`
+        }))
+
         .catch(error => console.error('Error:', error));
-        setCount(0)
+      setCount(0)
       //setEmailFlag(prev=>!prev)
     }
 
@@ -89,7 +96,7 @@ const WorkAllotment = () => {
   //   handleSendEmail()
   // },[emailFlag])
 
-// to change the heading once shiftvalue is changed
+  // to change the heading once shiftvalue is changed
   function handleShiftChange(event) {
     setShiftValue(event.target.value);
     const todayDate = new Date();
@@ -117,7 +124,7 @@ const WorkAllotment = () => {
     }
   }
 
-// To filter the shift members based on shiftvalue
+  // To filter the shift members based on shiftvalue
   function getCurrentShiftMembers() {
     const temp = shiftMembers.filter((ele) => {
       return ele.shift === shiftValue
@@ -125,14 +132,14 @@ const WorkAllotment = () => {
     return temp
   }
 
-// To fetch clien list
+  // To fetch clien list
   async function getClientLists() {
     const resp = await fetch('src/utils/clients.json');
     const clients = await resp.json();
     setOptionTagsFunc(clients);
   }
 
-// To fetch tools list
+  // To fetch tools list
   async function getToolsData() {
     const response = await fetch('src/utils/tools.json')
     const result = await response.json()
@@ -140,7 +147,7 @@ const WorkAllotment = () => {
     // console.log(toolsTags);
   }
 
-// To filter client list based on tags selected
+  // To filter client list based on tags selected
   function filteredClientLists(selectedTags) {
     const filterTags = optionsTags.filter((tag) => {
       return !selectedTags.includes(tag.clientName);
@@ -148,7 +155,7 @@ const WorkAllotment = () => {
     setOptionTagsFunc(filterTags);
   }
 
-// To filter tools list based on tags selected
+  // To filter tools list based on tags selected
   function filteredToolsLists(selectedTags) {
     const filterTags = toolsTags.filter((tag) => {
       return !selectedTags.includes(tag.clientName);
@@ -156,27 +163,27 @@ const WorkAllotment = () => {
     setToolsTagsFunc(filterTags);
   }
 
-// To add the removed client tags to optiontags state
+  // To add the removed client tags to optiontags state
   function addRemovedTags(tags) {
     setOptionsTags([...optionsTags, tags]);
   }
 
-// To add the removed tools tags to Toolstags state
+  // To add the removed tools tags to Toolstags state
   function addRemovedToolsTags(tags) {
     setToolsTags([...toolsTags, tags]);
   }
 
-// Function to set the option tags
+  // Function to set the option tags
   function setOptionTagsFunc(tags) {
     setOptionsTags(tags);
   }
 
-// Function to set the tools tags 
+  // Function to set the tools tags 
   function setToolsTagsFunc(tags) {
     setToolsTags(tags);
   }
 
-// To store the client list for the assigned members
+  // To store the client list for the assigned members
   function allotedClients(singleMember) {
     tempArr.push(...singleMember);
     // setTimeout(() => {
@@ -184,14 +191,16 @@ const WorkAllotment = () => {
     // }, 1000)
   }
 
-// To store the tools list for the assigned members
+  // To store the tools list for the assigned members
   function allotedTools(singleMember) {
     toolsArr.push(...singleMember);
 
-    setTimeout(() => {
-      console.log(toolsArr);
-    }, 1000)
+    // setTimeout(() => {
+    //   console.log(toolsArr);
+    // }, 1000)
   }
+
+
 
   // function handleAllData(){
   //   setTimeout(()=>{
@@ -199,7 +208,7 @@ const WorkAllotment = () => {
   //   },500)
   // }
 
-// To share the mail
+  // To share the mail
   function handleShare() {
     setIsShared(prev => !prev);
     //handleAllData();
@@ -212,16 +221,28 @@ const WorkAllotment = () => {
 
   }
 
-// To get the data of the handover member
+  // To get the data of the handover member
   function getHandoverMember(member) {
     setHandoverMember(member)
-    console.log(HandoverMember);
+    // console.log(HandoverMember);
   }
 
+
+  function changeBgClrOnScroll(){
+    if (window.scrollY>30) {
+      setScrollFlag(true)
+    }
+    else{
+      setScrollFlag(false)
+    }
+  }
+
+  window.addEventListener('scroll',changeBgClrOnScroll)
+
   return (
-    <div className='p-4 font-poppins w-full'>
-      <div className='flex justify-between items-center'>
-        <h1 className='font-semibold text-gray-600 text-xl'>COPS-WorkAlloment {shiftValue === 'Select Shift' ? null : `${shiftValue} `}{currentDate}</h1>
+    <div className=' font-poppins w-full '>
+      <div className={`flex px-4 py-3 justify-between  items-center sticky top-0   ${scrollFlag ? "bg-gradient-to-r from-blue-600 to-blue-300":"bg-transparent"}`}>
+        <h1 className={`font-semibold text-gray-600 text-xl ${scrollFlag ? "text-white":"text-gray-600"}`}>COPS-WorkAlloment {shiftValue === 'Select Shift' ? null : `${shiftValue} `}{currentDate}</h1>
         <div className='flex gap-2'>
           <select name="shifts" defaultValue={shiftValue} onChange={handleShiftChange} id="shifts" className='border-2 border-black rounded-md outline-none'>
             <option value="" className='hidden'>Select Shift</option>
@@ -229,18 +250,25 @@ const WorkAllotment = () => {
             <option value="EMEA">EMEA</option>
             <option value="NA">NA</option>
           </select>
+
           <button className='py-1 px-3 bg-blue-600 hover:bg-blue-400 transition-all duration-100 rounded-md text-white' onClick={handleShare} onMouseDown={handleShare}>Share</button>
         </div>
       </div>
-      <SelectHandoverMember currentShiftMemebers={currentShiftMemebers} getHandoverMember={getHandoverMember} />
-      <div>
+      <div className='flex p-4 flex-col gap-2 items-start justify-between'>
+
+        <Shiftmembersdetails currentShiftMemebers={currentShiftMemebers} getHandoverMember={getHandoverMember} shiftValue={shiftValue} />
+        <SelectHandoverMember currentShiftMemebers={currentShiftMemebers} getHandoverMember={getHandoverMember} />
+
+      </div>
+
+      <div className='p-4'>
         <table className='mt-6 w-full border-2 border-white border-separate'>
           <tr>
             <th className='p-2 bg-blue-600 text-white rounded-s-lg w-1/4'>Shift Members</th>
             <th className='p-2 bg-blue-600 text-white rounded-r-lg'>Alert and Ticketing Tools</th>
           </tr>
           {currentShiftMemebers ? currentShiftMemebers.map((emp, index) => {
-            return <AllotmentRows empname={emp.empname} key={emp.id} idx={index} optionsTags={toolsTags} filteredClientLists={filteredToolsLists} addRemovedTags={addRemovedToolsTags} allotedClients={allotedTools} handleShare={handleShare} isShared={isShared} getHandoverMember={getHandoverMember} />
+            return <AllotmentRows empname={emp.empname} key={emp.id} idx={index} optionsTags={toolsTags} filteredClientLists={filteredToolsLists} addRemovedTags={addRemovedToolsTags} allotedClients={allotedTools} handleShare={handleShare} isShared={isShared} getHandoverMember={getHandoverMember} disableFlag={toolsFlag} setDisableFlag={setToolsFlag} />
           }) : ''}
 
         </table>
@@ -248,10 +276,12 @@ const WorkAllotment = () => {
           <tr>
             <th className='p-2 bg-blue-600 text-white rounded-s-lg w-1/4'>Shift Members</th>
             <th className='p-2 bg-blue-600 text-white rounded-r-lg'>Custom Clients</th>
+
           </tr>
           {currentShiftMemebers ? currentShiftMemebers.map((emp, index) => {
-            return <AllotmentRows empname={emp.empname} key={emp.id} idx={index} optionsTags={optionsTags} filteredClientLists={filteredClientLists} addRemovedTags={addRemovedTags} allotedClients={allotedClients} handleShare={handleShare} isShared={isShared} getHandoverMember={getHandoverMember} />
+            return <AllotmentRows empname={emp.empname} key={emp.id} idx={index} optionsTags={optionsTags} filteredClientLists={filteredClientLists} addRemovedTags={addRemovedTags} allotedClients={allotedClients} handleShare={handleShare} isShared={isShared} getHandoverMember={getHandoverMember} disableFlag={monitoringTags} setDisableFlag={setMonitoringTags} />
           }) : ''}
+
 
         </table>
       </div>
