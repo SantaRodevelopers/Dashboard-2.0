@@ -1,0 +1,42 @@
+[
+    {
+        "id": 1,
+        "clientName": "Select",
+        "isAssigned": false
+    },
+    {
+        "id": 2,
+        "clientName": "Alert Dashboard (All Tabs)",
+        "isAssigned": false
+    },
+    {
+        "id": 3,
+        "clientName": "ServiceNow (Req/INC)",
+        "isAssigned": false
+    },
+    {
+        "id": 4,
+        "clientName": "SSL Cert Management",
+        "isAssigned": false
+    },
+    {
+        "id": 5,
+        "clientName": "SecureConnect DX",
+        "isAssigned": false
+    },
+    {
+        "id": 6,
+        "clientName": "Thousand Eyes",
+        "isAssigned": false
+    },
+    {
+        "id": 7,
+        "clientName": "Opsramp",
+        "isAssigned": false
+    },
+    {
+        "id": 8,
+        "clientName": "ELK CMOC Dashboard",
+        "isAssigned": false
+    }
+]

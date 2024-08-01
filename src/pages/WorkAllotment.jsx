@@ -2,28 +2,39 @@ import React, { useEffect } from 'react'
 import { useState } from 'react'
 import AllotmentRows from '../components/AllotmentRows'
 import SelectHandoverMember from '../components/SelectHandoverMember'
-
+import { toast } from 'sonner';
 
 const WorkAllotment = () => {
   const [currentDate, setCurrentDate] = useState(null)
   const [shiftValue, setShiftValue] = useState('Select Shift')
   const [currentShiftMemebers, setcurrentShiftMemebers] = useState('')
   const [optionsTags, setOptionsTags] = useState([]);
+  const [toolsTags, setToolsTags] = useState([])
   const [count, setCount] = useState(0)
   const [emailFlag, setEmailFlag] = useState(false)
-  const [HandoverMember,setHandoverMember] =useState('')
+  const [HandoverMember, setHandoverMember] = useState('')
   let space = " - "
   let tempArr = [];
+  let toolsArr = []
   let slNo = 1;
 
 
   const generateEmailBody = () => {
-    let emailBody =`<table border="1" style="border-collapse: collapse; margin-bottom:10px; "><tr><td style="background-color: #2D3250; color:white; font-weight:bold;padding:10px;text-align:center;">Work Allotment</td><td style="padding:10px;text-align:center;">Vedhitha/Roshan</td></tr><tr><td style="background-color: #2D3250; color:white;font-weight:bold;padding:10px;text-align:center;">Shift Handover</td><td style="padding:10px;text-align:center;">${HandoverMember}</td></tr></table>`
-     emailBody += '<table border="1" style="border-collapse: collapse;">';
+    let emailBody = `<table border="1" style="border-collapse: collapse; margin-bottom:10px; "><tr><td style="background-color: #2D3250; color:white; font-weight:bold;padding:10px;text-align:center;">Work Allotment</td><td style="padding:10px;text-align:center;">Vedhitha/Roshan</td></tr><tr><td style="background-color: #2D3250; color:white;font-weight:bold;padding:10px;text-align:center;">Shift Handover</td><td style="padding:10px;text-align:center;">${HandoverMember}</td></tr></table>`
+    emailBody += '<table border="1" style="border-collapse: collapse;">';
+
+    emailBody += '<tr><th colspan="3" style="color: white; padding:10px ;background-color: #2D3250;">Tools</th></tr><tr><th style="color: white; padding:10px ;background-color: #424769;">SL NO</th><th style="color: white; padding:10px ;background-color: #424769;">Tools</th><th style="color: white; padding:10px ;background-color: #424769;">Alotted To</th></tr>';
+    toolsArr.forEach(user => {
+      user.clients.forEach((client) => {
+        emailBody += `<tr><td style="padding:5px;text-align:center; width:10%;">${slNo}</td><td style="padding:5px;text-align:center; width:80%;">${client}</td><td style="padding:5px;text-align:center;width:80%;">${user.name}</td></tr>`;
+        slNo = slNo + 1
+      });
+    });
+
     emailBody += '<tr><th colspan="3" style="color: white; padding:10px ;background-color: #2D3250;">Monitoring</th></tr><tr><th style="color: white; padding:10px ;background-color: #424769;">SL NO</th><th style="color: white; padding:10px ;background-color: #424769;">Clients</th><th style="color: white; padding:10px ;background-color: #424769;">Alotted To</th></tr>';
     tempArr.forEach(user => {
       user.clients.forEach((client) => {
-        emailBody += `<tr><td style="padding:5px;text-align:center; width:30%;">${slNo}</td><td style="padding:5px;text-align:center; width:30%;">${client}</td><td style="padding:5px;text-align:center;width:30%;">${user.name}</td></tr>`;
+        emailBody += `<tr><td style="padding:5px;text-align:center; width:10%;">${slNo}</td><td style="padding:5px;text-align:center; width:80%;">${client}</td><td style="padding:5px;text-align:center;width:80%;">${user.name}</td></tr>`;
         slNo = slNo + 1
       });
 
@@ -40,6 +51,10 @@ const WorkAllotment = () => {
       //setEmailFlag(false)
     }
     else {
+      const date = new Date();
+      const maindate = ` ${date.getMonth() + 1}/${date.getDate()}/${date.getFullYear()+ " "+ date.getHours() + ":" 
+      + date.getMinutes() + ":" + date.getSeconds()}`
+
       fetch('http://localhost:5000/send-email', {
         method: 'POST',
         headers: {
@@ -48,9 +63,11 @@ const WorkAllotment = () => {
         body: JSON.stringify({ subject, body })
       })
         .then(response => response.text())
-        .then(result => alert(result))
+        .then(result => toast.success('Email Sent..',{
+          description: `Mail sent at ${maindate}`}))
+        
         .catch(error => console.error('Error:', error));
-      setCount(0)
+        setCount(0)
       //setEmailFlag(prev=>!prev)
     }
 
@@ -81,6 +98,7 @@ const WorkAllotment = () => {
   useEffect(() => {
     getHandoverData();
     getClientLists();
+    getToolsData();
   }, [shiftValue])
 
 
@@ -94,7 +112,10 @@ const WorkAllotment = () => {
     } catch (error) {
       console.log(error);
     }
+
   }
+
+
 
   function getCurrentShiftMembers() {
     const temp = shiftMembers.filter((ele) => {
@@ -108,6 +129,12 @@ const WorkAllotment = () => {
     const clients = await resp.json();
     setOptionTagsFunc(clients);
   }
+  async function getToolsData() {
+    const response = await fetch('src/utils/tools.json')
+    const result = await response.json()
+    setToolsTagsFunc(result)
+    // console.log(toolsTags);
+  }
 
   function filteredClientLists(selectedTags) {
     const filterTags = optionsTags.filter((tag) => {
@@ -116,20 +143,42 @@ const WorkAllotment = () => {
     setOptionTagsFunc(filterTags);
   }
 
+  function filteredToolsLists(selectedTags) {
+    const filterTags = toolsTags.filter((tag) => {
+      return !selectedTags.includes(tag.clientName);
+    })
+    setToolsTagsFunc(filterTags);
+  }
+
   function addRemovedTags(tags) {
     setOptionsTags([...optionsTags, tags]);
   }
 
+  function addRemovedToolsTags(tags) {
+    setToolsTags([...toolsTags, tags]);
+  }
 
   function setOptionTagsFunc(tags) {
     setOptionsTags(tags);
   }
 
+  function setToolsTagsFunc(tags) {
+    setToolsTags(tags);
+  }
+
+
   function allotedClients(singleMember) {
     tempArr.push(...singleMember);
+    // setTimeout(() => {
+    //   console.log(tempArr);
+    // }, 1000)
+  }
+
+  function allotedTools(singleMember) {
+    toolsArr.push(...singleMember);
 
     setTimeout(() => {
-      console.log(tempArr);
+      console.log(toolsArr);
     }, 1000)
   }
 
@@ -175,10 +224,20 @@ const WorkAllotment = () => {
         <table className='mt-6 w-full border-2 border-white border-separate'>
           <tr>
             <th className='p-2 bg-blue-600 text-white rounded-s-lg w-1/4'>Shift Members</th>
+            <th className='p-2 bg-blue-600 text-white rounded-r-lg'>Alert and Ticketing Tools</th>
+          </tr>
+          {currentShiftMemebers ? currentShiftMemebers.map((emp, index) => {
+            return <AllotmentRows empname={emp.empname} key={emp.id} idx={index} optionsTags={toolsTags} filteredClientLists={filteredToolsLists} addRemovedTags={addRemovedToolsTags} allotedClients={allotedTools} handleShare={handleShare} isShared={isShared} getHandoverMember={getHandoverMember} />
+          }) : ''}
+
+        </table>
+        <table className='mt-6 w-full border-2 border-white border-separate'>
+          <tr>
+            <th className='p-2 bg-blue-600 text-white rounded-s-lg w-1/4'>Shift Members</th>
             <th className='p-2 bg-blue-600 text-white rounded-r-lg'>Custom Clients</th>
           </tr>
           {currentShiftMemebers ? currentShiftMemebers.map((emp, index) => {
-            return <AllotmentRows empname={emp.empname} key={emp.id} idx={index} optionsTags={optionsTags} filteredClientLists={filteredClientLists} addRemovedTags={addRemovedTags} allotedClients={allotedClients} handleShare={handleShare} isShared={isShared} />
+            return <AllotmentRows empname={emp.empname} key={emp.id} idx={index} optionsTags={optionsTags} filteredClientLists={filteredClientLists} addRemovedTags={addRemovedTags} allotedClients={allotedClients} handleShare={handleShare} isShared={isShared} getHandoverMember={getHandoverMember} />
           }) : ''}
 
         </table>

@@ -46,6 +46,7 @@ useEffect(()=>{
 
 
     return (
+            
             <tr>
               <td className={`text-center ${idx % 2 == 0 ? "bg-white" : "bg-blue-200"} rounded-s-lg py-2`}>{empname}</td>
               <div className="border-2 border-gray-400 px-2 py-3 flex items-center gap-1 flex-wrap min-h-[54px]">
