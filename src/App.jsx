@@ -3,12 +3,7 @@ import Navbar from './components/Navbar'
 import NavRoutes from './NavRoutes'
 import UserProfile from "./components/UserProfile";
 
-
-
-
 const App = () => {
-    
-
   return (
     <>
       <div className='flex w-full'>

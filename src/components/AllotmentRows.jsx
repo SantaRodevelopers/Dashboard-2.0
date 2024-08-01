@@ -15,15 +15,17 @@ useEffect(()=>{
     allotedClients(emailData);
 },[isShared])
 
+// To create an individual object with the tags selected and member name. 
 function getShiftMembers(){
     let obj1 = [{name:empname,clients:selectedTags}];
-    setEmailData(obj1);
+    setEmailData(obj1); //setting the obj to the usestate
 }
 
 useEffect(()=>{
     addRemovedTags(removedTags);
 },[removedTags])
 
+// To append the selected tags that are selected from the drop down to the usestate
     function getSelectedTags(event){
         let value = event.target[event.target.value].innerHTML;
         if(!selectedTags.includes(value) && value != 'Select'){
@@ -31,6 +33,7 @@ useEffect(()=>{
         }
     }   
 
+// To remove the tags from the textbox and than filtering the selected tags by what we have removed
     function removeTags(event){
         event.stopPropagation();
         setRemovedTags({clientName:event.target.innerText});

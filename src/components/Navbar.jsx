@@ -21,7 +21,9 @@ const Navbar = () => {
     ]
   return (
     <div className='bg-blue-600 w-full py-2 text-white h-full relative'>
-        <div className="logo ml-2 mb-4">Logo</div>
+        <div className="logo ml-2 mb-4">
+          Logo
+        </div>
         <div className=' font-poppins text-[15px] flex flex-col gap-2'>
            {adminItems.map((item)=>{
                 return <NavItem image = {item.image} navItem = {item.item} key={item.id} navPath = {item.navLink}/>

@@ -11,14 +11,13 @@ const WorkAllotment = () => {
   const [optionsTags, setOptionsTags] = useState([]);
   const [toolsTags, setToolsTags] = useState([])
   const [count, setCount] = useState(0)
-  const [emailFlag, setEmailFlag] = useState(false)
   const [HandoverMember, setHandoverMember] = useState('')
   let space = " - "
   let tempArr = [];
   let toolsArr = []
   let slNo = 1;
 
-
+// To generate the email body for mail
   const generateEmailBody = () => {
     let emailBody = `<table border="1" style="border-collapse: collapse; margin-bottom:10px; "><tr><td style="background-color: #2D3250; color:white; font-weight:bold;padding:10px;text-align:center;">Work Allotment</td><td style="padding:10px;text-align:center;">Vedhitha/Roshan</td></tr><tr><td style="background-color: #2D3250; color:white;font-weight:bold;padding:10px;text-align:center;">Shift Handover</td><td style="padding:10px;text-align:center;">${HandoverMember}</td></tr></table>`
     emailBody += '<table border="1" style="border-collapse: collapse;">';
@@ -43,6 +42,8 @@ const WorkAllotment = () => {
     return emailBody;
   };
 
+
+// To get subject and body for mail
   const handleSendEmail = (count) => {
     const subject = `COPS-WorkAlloment ${shiftValue === 'Select Shift' ? null : shiftValue} ${space} ${currentDate}`;
     const body = generateEmailBody();
@@ -88,6 +89,7 @@ const WorkAllotment = () => {
   //   handleSendEmail()
   // },[emailFlag])
 
+// to change the heading once shiftvalue is changed
   function handleShiftChange(event) {
     setShiftValue(event.target.value);
     const todayDate = new Date();
@@ -102,6 +104,7 @@ const WorkAllotment = () => {
   }, [shiftValue])
 
 
+  // To fetch shiftmembers
   async function getHandoverData() {
     try {
       const response = await fetch('src/utils/shiftmemebersdata.json')
@@ -112,11 +115,9 @@ const WorkAllotment = () => {
     } catch (error) {
       console.log(error);
     }
-
   }
 
-
-
+// To filter the shift members based on shiftvalue
   function getCurrentShiftMembers() {
     const temp = shiftMembers.filter((ele) => {
       return ele.shift === shiftValue
@@ -124,11 +125,14 @@ const WorkAllotment = () => {
     return temp
   }
 
+// To fetch clien list
   async function getClientLists() {
     const resp = await fetch('src/utils/clients.json');
     const clients = await resp.json();
     setOptionTagsFunc(clients);
   }
+
+// To fetch tools list
   async function getToolsData() {
     const response = await fetch('src/utils/tools.json')
     const result = await response.json()
@@ -136,6 +140,7 @@ const WorkAllotment = () => {
     // console.log(toolsTags);
   }
 
+// To filter client list based on tags selected
   function filteredClientLists(selectedTags) {
     const filterTags = optionsTags.filter((tag) => {
       return !selectedTags.includes(tag.clientName);
@@ -143,6 +148,7 @@ const WorkAllotment = () => {
     setOptionTagsFunc(filterTags);
   }
 
+// To filter tools list based on tags selected
   function filteredToolsLists(selectedTags) {
     const filterTags = toolsTags.filter((tag) => {
       return !selectedTags.includes(tag.clientName);
@@ -150,23 +156,27 @@ const WorkAllotment = () => {
     setToolsTagsFunc(filterTags);
   }
 
+// To add the removed client tags to optiontags state
   function addRemovedTags(tags) {
     setOptionsTags([...optionsTags, tags]);
   }
 
+// To add the removed tools tags to Toolstags state
   function addRemovedToolsTags(tags) {
     setToolsTags([...toolsTags, tags]);
   }
 
+// Function to set the option tags
   function setOptionTagsFunc(tags) {
     setOptionsTags(tags);
   }
 
+// Function to set the tools tags 
   function setToolsTagsFunc(tags) {
     setToolsTags(tags);
   }
 
-
+// To store the client list for the assigned members
   function allotedClients(singleMember) {
     tempArr.push(...singleMember);
     // setTimeout(() => {
@@ -174,6 +184,7 @@ const WorkAllotment = () => {
     // }, 1000)
   }
 
+// To store the tools list for the assigned members
   function allotedTools(singleMember) {
     toolsArr.push(...singleMember);
 
@@ -188,6 +199,7 @@ const WorkAllotment = () => {
   //   },500)
   // }
 
+// To share the mail
   function handleShare() {
     setIsShared(prev => !prev);
     //handleAllData();
@@ -200,6 +212,7 @@ const WorkAllotment = () => {
 
   }
 
+// To get the data of the handover member
   function getHandoverMember(member) {
     setHandoverMember(member)
     console.log(HandoverMember);
@@ -216,7 +229,7 @@ const WorkAllotment = () => {
             <option value="EMEA">EMEA</option>
             <option value="NA">NA</option>
           </select>
-          <button className='py-1 px-3 bg-blue-500 rounded-md text-white' onClick={handleShare} onMouseDown={handleShare}>Share</button>
+          <button className='py-1 px-3 bg-blue-600 hover:bg-blue-400 transition-all duration-100 rounded-md text-white' onClick={handleShare} onMouseDown={handleShare}>Share</button>
         </div>
       </div>
       <SelectHandoverMember currentShiftMemebers={currentShiftMemebers} getHandoverMember={getHandoverMember} />
