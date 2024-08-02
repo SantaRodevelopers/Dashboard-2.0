@@ -16,6 +16,9 @@ const WorkAllotment = () => {
   const [toolsFlag, setToolsFlag] = useState(false)
   const [monitoringTags, setMonitoringTags] = useState(false)
   const [scrollFlag,setScrollFlag]=useState(false)
+  const [inShift,setInShift]=useState([])
+  const [onLeave,setOnLeave] = useState([])
+  const [onWeekOff,setOnWeekOff]=useState([])
 
 
   let space = " - "
@@ -23,9 +26,16 @@ const WorkAllotment = () => {
   let toolsArr = []
   let slNo = 1;
 
+
+
+  
+
   // To generate the email body for mail
   const generateEmailBody = () => {
-    let emailBody = `<table border="1" style="border-collapse: collapse; margin-bottom:10px; "><tr><td style="background-color: #2D3250; color:white; font-weight:bold;padding:10px;text-align:center;">Work Allotment</td><td style="padding:10px;text-align:center;">Vedhitha/Roshan</td></tr><tr><td style="background-color: #2D3250; color:white;font-weight:bold;padding:10px;text-align:center;">Shift Handover</td><td style="padding:10px;text-align:center;">${HandoverMember}</td></tr></table>`
+    let emailBody = `<div style="display: flex;align-items: center;"> <table border="1" style="border-collapse: collapse; margin-bottom:10px; "><tr><td style="background-color: #2D3250; color:white; font-weight:bold;padding:10px;text-align:center;">Work Allotment</td><td style="padding:10px;text-align:center;">Vedhitha/Roshan</td></tr><tr><td style="background-color: #2D3250; color:white;font-weight:bold;padding:10px;text-align:center;">Shift Handover</td><td style="padding:10px;text-align:center;">${HandoverMember}</td></tr></table>`
+
+    emailBody +=`<table border="1" style="border-collapse: collapse; margin-bottom:10px; "><tr><td style="background-color: #2D3250; color:white; font-weight:bold;padding:10px;text-align:center;">Associates in Shift</td><td style="padding:10px;text-align:center;">${inShift}</td></tr><tr><td style="background-color: #2D3250; color:white;font-weight:bold;padding:10px;text-align:center;">Associates on Leave</td><td style="padding:10px;text-align:center;">${onLeave}</td></tr> </tr><tr><td style="background-color: #2D3250; color:white;font-weight:bold;padding:10px;text-align:center;">Week off</td><td style="padding:10px;text-align:center;">${onWeekOff}</td></tr></table> </div>`
+
     emailBody += '<table border="1" style="border-collapse: collapse;">';
 
     emailBody += '<tr><th colspan="3" style="color: white; padding:10px ;background-color: #2D3250;">Tools</th></tr><tr><th style="color: white; padding:10px ;background-color: #424769;">SL NO</th><th style="color: white; padding:10px ;background-color: #424769;">Tools</th><th style="color: white; padding:10px ;background-color: #424769;">Alotted To</th></tr>';
@@ -236,6 +246,9 @@ const WorkAllotment = () => {
       setScrollFlag(false)
     }
   }
+  console.log("Weekoff ",onWeekOff);
+  console.log("Onleave ",onLeave);
+  console.log("InShift ",inShift);
 
   window.addEventListener('scroll',changeBgClrOnScroll)
 
@@ -256,8 +269,8 @@ const WorkAllotment = () => {
       </div>
       <div className='flex p-4 flex-col gap-2 items-start justify-between'>
 
-        <Shiftmembersdetails currentShiftMemebers={currentShiftMemebers} getHandoverMember={getHandoverMember} shiftValue={shiftValue} />
-        <SelectHandoverMember currentShiftMemebers={currentShiftMemebers} getHandoverMember={getHandoverMember} />
+        <Shiftmembersdetails currentShiftMemebers={currentShiftMemebers} getHandoverMember={getHandoverMember} shiftValue={shiftValue} inShift={inShift} onLeave={onLeave} onWeekOff={onWeekOff} setInShift={setInShift} setOnLeave={setOnLeave} setOnWeekOff={setOnWeekOff} />
+        <SelectHandoverMember currentShiftMemebers={currentShiftMemebers} getHandoverMember={getHandoverMember}  />
 
       </div>
 

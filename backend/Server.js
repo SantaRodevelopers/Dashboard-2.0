@@ -23,7 +23,7 @@ app.post('/send-email', (req, res) => {
     to: 'sk2088458@gmail.com;rohitrk21122000@gmail.com', // Replace with recipient email or make it dynamic sk2088458@gmail.com;rohitrk21122000@gmail.com
     subject: subject,
     html: body
-    
+   
   };
 
   transporter.sendMail(mailOptions, (error, info) => {

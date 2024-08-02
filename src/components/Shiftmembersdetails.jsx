@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import AssoicatesStatus from './AssoicatesStatus'
 
 
-function Shiftmembersdetails({ currentShiftMemebers, getHandoverMember, shiftValue }) {
+function Shiftmembersdetails({ currentShiftMemebers, getHandoverMember, shiftValue, inShift,onLeave,onWeekOff,setInShift,setOnLeave,setOnWeekOff }) {
 
     const [members, setMembers] = useState([])
     const [removedMembers,setRemovedMembers] =useState([])
@@ -23,7 +23,7 @@ function Shiftmembersdetails({ currentShiftMemebers, getHandoverMember, shiftVal
     useEffect(() => {
         AssigningMemeber()
         //console.log(members);
-        console.log(members);
+        //console.log(members);
     }, [currentShiftMemebers])
 
     useEffect(() => {
@@ -43,6 +43,7 @@ function Shiftmembersdetails({ currentShiftMemebers, getHandoverMember, shiftVal
         })
         // setRemovedMemebers(filteredTags);
         setMembers(filteredTags)
+        
 
     }
 
@@ -50,11 +51,13 @@ function Shiftmembersdetails({ currentShiftMemebers, getHandoverMember, shiftVal
 
         event.stopPropagation();
         setMembersOnWeekOff([...membersOnWeekOff,event.target.innerText]);
+        
         const filteredTags = removedMembers.filter((elem) => {    
             return elem != event.target.innerText;
         })
         // setRemovedMemebers(filteredTags);
         setRemovedMembers(filteredTags)
+        
     }
     function notonWeekOff(event) {
 
@@ -65,8 +68,26 @@ function Shiftmembersdetails({ currentShiftMemebers, getHandoverMember, shiftVal
         })
         // setRemovedMemebers(filteredTags);
         setMembersOnWeekOff(filteredTags)
+        
     }
 
+    useEffect(()=>{
+        setInShift(members);
+        
+    },[removeTags])
+    
+    useEffect(()=>{
+        setOnLeave(removedMembers)
+        
+    },[onLeaveTags])
+
+    useEffect(()=>{
+        setOnWeekOff(membersOnWeekOff)
+        
+    },[notonWeekOff])
+
+    
+    
 
 
     return (
@@ -75,7 +96,7 @@ function Shiftmembersdetails({ currentShiftMemebers, getHandoverMember, shiftVal
 
                 <div className='flex gap-2'>
                 <p className='w-[175px]'>Associate in Shift</p>
-                <AssoicatesStatus members={members} filterAssociates={removeTags}  />
+                <AssoicatesStatus members={members} filterAssociates={removeTags}   />
                 </div>
 
                 <div className='flex gap-2'>
