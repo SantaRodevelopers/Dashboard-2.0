@@ -38,7 +38,7 @@ const WorkAllotment = () => {
 
     emailBody += '<table border="1" style="border-collapse: collapse;">';
 
-    emailBody += '<tr><th colspan="3" style="color: white; padding:10px ;background-color: #2D3250;">Tools</th></tr><tr><th style="color: white; padding:10px ;background-color: #424769;">SL NO</th><th style="color: white; padding:10px ;background-color: #424769;">Tools</th><th style="color: white; padding:10px ;background-color: #424769;">Alotted To</th></tr>';
+    emailBody += '<tr><th colspan="3" style="color: white; padding:10px ;background-color: #2D3250;">Tools</th></tr><tr><th style="color: white; padding:10px ;background-color: #424769;">SL NO</th><th style="color: white; padding:10px ;background-color: #424769;">Monitoring Tools</th><th style="color: white; padding:10px ;background-color: #424769;">Alotted To</th></tr>';
     toolsArr.forEach(user => {
       user.clients.forEach((client) => {
         emailBody += `<tr><td style="padding:5px;text-align:center; width:10%;">${slNo}</td><td style="padding:5px;text-align:center; width:80%;">${client}</td><td style="padding:5px;text-align:center;width:80%;">${user.name}</td></tr>`;
