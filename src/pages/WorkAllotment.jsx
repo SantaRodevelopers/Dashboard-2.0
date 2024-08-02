@@ -1,9 +1,11 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useContext } from 'react'
 import { useState } from 'react'
 import AllotmentRows from '../components/AllotmentRows'
 import SelectHandoverMember from '../components/SelectHandoverMember'
 import { toast } from 'sonner';
 import Shiftmembersdetails from '../components/Shiftmembersdetails';
+import { shiftMembersContext } from '../context/context';
+
 
 const WorkAllotment = () => {
   const [currentDate, setCurrentDate] = useState(null)
@@ -20,15 +22,13 @@ const WorkAllotment = () => {
   const [onLeave,setOnLeave] = useState([])
   const [onWeekOff,setOnWeekOff]=useState([])
 
+  const shiftMembers = useContext(shiftMembersContext)
 
   let space = " - "
   let tempArr = [];
   let toolsArr = []
   let slNo = 1;
 
-
-
-  
 
   // To generate the email body for mail
   const generateEmailBody = () => {
@@ -95,7 +95,7 @@ const WorkAllotment = () => {
   const [isShared, setIsShared] = useState(false);
 
 
-  let shiftMembers = [];
+  // let shiftMembers = [];
 
   // useEffect(()=>{
   //   handleAllData(); // to overcome two timeshare 
@@ -121,11 +121,8 @@ const WorkAllotment = () => {
   }, [shiftValue])
 
 
-  // To fetch shiftmembers
   async function getHandoverData() {
     try {
-      const response = await fetch('src/utils/shiftmemebersdata.json')
-      shiftMembers = await response.json()
       if (shiftMembers.length > 0) {
         setcurrentShiftMemebers(getCurrentShiftMembers())
       }
@@ -246,9 +243,6 @@ const WorkAllotment = () => {
       setScrollFlag(false)
     }
   }
-  console.log("Weekoff ",onWeekOff);
-  console.log("Onleave ",onLeave);
-  console.log("InShift ",inShift);
 
   window.addEventListener('scroll',changeBgClrOnScroll)
 

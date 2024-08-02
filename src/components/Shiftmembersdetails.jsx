@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import AssoicatesStatus from './AssoicatesStatus'
 
 
-function Shiftmembersdetails({ currentShiftMemebers, getHandoverMember, shiftValue, inShift,onLeave,onWeekOff,setInShift,setOnLeave,setOnWeekOff }) {
+function Shiftmembersdetails({ currentShiftMemebers, shiftValue,setInShift,setOnLeave,setOnWeekOff }) {
 
     const [members, setMembers] = useState([])
     const [removedMembers,setRemovedMembers] =useState([])
