@@ -1,11 +1,11 @@
-import React, { useEffect, useContext } from 'react'
+import React, { useEffect,useContext } from 'react'
 import { useState } from 'react'
 import AllotmentRows from '../components/AllotmentRows'
 import SelectHandoverMember from '../components/SelectHandoverMember'
 import { toast } from 'sonner';
 import Shiftmembersdetails from '../components/Shiftmembersdetails';
-import { shiftMembersContext } from '../context/context';
-
+import { shiftMembersContext } from '../context/context'
+import Header from '../components/Header';
 
 const WorkAllotment = () => {
   const [currentDate, setCurrentDate] = useState(null)
@@ -17,24 +17,30 @@ const WorkAllotment = () => {
   const [HandoverMember, setHandoverMember] = useState('')
   const [toolsFlag, setToolsFlag] = useState(false)
   const [monitoringTags, setMonitoringTags] = useState(false)
-  const [scrollFlag,setScrollFlag]=useState(false)
-  const [inShift,setInShift]=useState([])
-  const [onLeave,setOnLeave] = useState([])
-  const [onWeekOff,setOnWeekOff]=useState([])
+  const [scrollFlag, setScrollFlag] = useState(false)
+  const [inShift, setInShift] = useState([])
+  const [onLeave, setOnLeave] = useState([])
+  const [onWeekOff, setOnWeekOff] = useState([])
 
-  const shiftMembers = useContext(shiftMembersContext)
 
+  let type='Work Allotment'
   let space = " - "
   let tempArr = [];
   let toolsArr = []
   let slNo = 1;
 
 
+
+  const [,workAllomentMonitoringData, setWorkAllomentMonitoringData,workAllotmentToolsData, setWorkAllotmentToolsData] = useContext(shiftMembersContext);
+
+  
+
+
   // To generate the email body for mail
   const generateEmailBody = () => {
     let emailBody = `<div style="display: flex;align-items: center;"> <table border="1" style="border-collapse: collapse; margin-bottom:10px; "><tr><td style="background-color: #2D3250; color:white; font-weight:bold;padding:10px;text-align:center;">Work Allotment</td><td style="padding:10px;text-align:center;">Vedhitha/Roshan</td></tr><tr><td style="background-color: #2D3250; color:white;font-weight:bold;padding:10px;text-align:center;">Shift Handover</td><td style="padding:10px;text-align:center;">${HandoverMember}</td></tr></table>`
 
-    emailBody +=`<table border="1" style="border-collapse: collapse; margin-bottom:10px; "><tr><td style="background-color: #2D3250; color:white; font-weight:bold;padding:10px;text-align:center;">Associates in Shift</td><td style="padding:10px;text-align:center;">${inShift}</td></tr><tr><td style="background-color: #2D3250; color:white;font-weight:bold;padding:10px;text-align:center;">Associates on Leave</td><td style="padding:10px;text-align:center;">${onLeave}</td></tr> </tr><tr><td style="background-color: #2D3250; color:white;font-weight:bold;padding:10px;text-align:center;">Week off</td><td style="padding:10px;text-align:center;">${onWeekOff}</td></tr></table> </div>`
+    emailBody += `<table border="1" style="border-collapse: collapse; margin-bottom:10px; "><tr><td style="background-color: #2D3250; color:white; font-weight:bold;padding:10px;text-align:center;">Associates in Shift</td><td style="padding:10px;text-align:center;">${inShift}</td></tr><tr><td style="background-color: #2D3250; color:white;font-weight:bold;padding:10px;text-align:center;">Associates on Leave</td><td style="padding:10px;text-align:center;">${onLeave}</td></tr> </tr><tr><td style="background-color: #2D3250; color:white;font-weight:bold;padding:10px;text-align:center;">Week off</td><td style="padding:10px;text-align:center;">${onWeekOff}</td></tr></table> </div>`
 
     emailBody += '<table border="1" style="border-collapse: collapse;">';
 
@@ -61,6 +67,8 @@ const WorkAllotment = () => {
 
   // To get subject and body for mail
   const handleSendEmail = (count) => {
+    setWorkAllomentMonitoringData(tempArr)
+    setWorkAllotmentToolsData(toolsArr)
     const subject = `COPS-WorkAlloment ${shiftValue === 'Select Shift' ? null : shiftValue} ${space} ${currentDate}`;
     const body = generateEmailBody();
     if (count == 0) {
@@ -95,7 +103,7 @@ const WorkAllotment = () => {
   const [isShared, setIsShared] = useState(false);
 
 
-  // let shiftMembers = [];
+  let shiftMembers = [];
 
   // useEffect(()=>{
   //   handleAllData(); // to overcome two timeshare 
@@ -121,8 +129,11 @@ const WorkAllotment = () => {
   }, [shiftValue])
 
 
+  // To fetch shiftmembers
   async function getHandoverData() {
     try {
+      const response = await fetch('src/utils/shiftmemebersdata.json')
+      shiftMembers = await response.json()
       if (shiftMembers.length > 0) {
         setcurrentShiftMemebers(getCurrentShiftMembers())
       }
@@ -235,36 +246,26 @@ const WorkAllotment = () => {
   }
 
 
-  function changeBgClrOnScroll(){
-    if (window.scrollY>30) {
+  function changeBgClrOnScroll() {
+    if (window.scrollY > 30) {
       setScrollFlag(true)
     }
-    else{
+    else {
       setScrollFlag(false)
     }
   }
 
-  window.addEventListener('scroll',changeBgClrOnScroll)
+
+
+  window.addEventListener('scroll', changeBgClrOnScroll)
 
   return (
     <div className=' font-poppins w-full '>
-      <div className={`flex px-4 py-3 justify-between  items-center sticky top-0   ${scrollFlag ? "bg-gradient-to-r from-blue-600 to-blue-300":"bg-transparent"}`}>
-        <h1 className={`font-semibold text-gray-600 text-xl ${scrollFlag ? "text-white":"text-gray-600"}`}>COPS-WorkAlloment {shiftValue === 'Select Shift' ? null : `${shiftValue} `}{currentDate}</h1>
-        <div className='flex gap-2'>
-          <select name="shifts" defaultValue={shiftValue} onChange={handleShiftChange} id="shifts" className='border-2 border-black rounded-md outline-none'>
-            <option value="" className='hidden'>Select Shift</option>
-            <option value="APAC">APAC</option>
-            <option value="EMEA">EMEA</option>
-            <option value="NA">NA</option>
-          </select>
-
-          <button className='py-1 px-3 bg-blue-600 hover:bg-blue-400 transition-all duration-100 rounded-md text-white' onClick={handleShare} onMouseDown={handleShare}>Share</button>
-        </div>
-      </div>
+    <Header scrollFlag={scrollFlag} handleShiftChange={handleShiftChange} type={type} shiftValue={shiftValue} currentDate={currentDate} handleShare={handleShare} />
       <div className='flex p-4 flex-col gap-2 items-start justify-between'>
 
         <Shiftmembersdetails currentShiftMemebers={currentShiftMemebers} getHandoverMember={getHandoverMember} shiftValue={shiftValue} inShift={inShift} onLeave={onLeave} onWeekOff={onWeekOff} setInShift={setInShift} setOnLeave={setOnLeave} setOnWeekOff={setOnWeekOff} />
-        <SelectHandoverMember currentShiftMemebers={currentShiftMemebers} getHandoverMember={getHandoverMember}  />
+        <SelectHandoverMember currentShiftMemebers={currentShiftMemebers} getHandoverMember={getHandoverMember} />
 
       </div>
 
@@ -292,6 +293,7 @@ const WorkAllotment = () => {
 
         </table>
       </div>
+      
     </div>
   )
 }

@@ -3,7 +3,7 @@ import ShiftAssociates from '../components/ShiftAssociates';
 import { shiftMembersContext } from '../context/context'
 
 const AboutShifts = () => {
-  const shiftMembers = useContext(shiftMembersContext);
+  const [shiftMembers,,,,] = useContext(shiftMembersContext);
   const [apacMembers, setApacMembers] = useState([]);
   const [emeaMembers, setEmeaMembers] = useState([]);
   const [naMembers, setNaMembers] = useState([]);

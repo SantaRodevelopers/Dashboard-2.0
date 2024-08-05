@@ -2,12 +2,12 @@
     {
         "id":1,
         "empname":"Syed",
-        "shift":"APAC"
+        "shift":"EMEA"
     },
     {
         "id":2,
         "empname":"Tanushree",
-        "shift":"APAC"
+        "shift":"EMEA"
     },
     {
         "id":3,
@@ -17,33 +17,29 @@
     {
         "id":4,
         "empname":"Rohit",
-        "shift":"EMEA"
+        "shift":"APAC"
     },
     {
         "id":5,
         "empname":"Santosh",
-        "shift":"EMEA"
+        "shift":"NA"
     },
     {
         "id":6,
         "empname":"Damodhar",
-        "shift":"EMEA"
+        "shift":"APAC"
     },
     {
         "id":7,
         "empname":"Megha",
-        "shift":"EMEA"
+        "shift":"NA"
     },
     {
         "id":8,
         "empname":"Nandini",
-        "shift":"NA"
+        "shift":"EMEA"
     },
-    {
-        "id":9,
-        "empname":"Viswa",
-        "shift":"NA"
-    },
+
     {
         "id":10,
         "empname":"Akshay",

@@ -3,13 +3,18 @@ import Navbar from './components/Navbar'
 import NavRoutes from './NavRoutes'
 import { shiftMembersContext } from './context/context'
 
+
 const App = () => {
 
-  const [shiftMembers,setShiftMembers] = useState([]);
+  const [shiftMembers, setShiftMembers] = useState([]);
+  const [workAllomentMonitoringData, setWorkAllomentMonitoringData] = useState([])
+  const [workAllotmentToolsData, setWorkAllotmentToolsData] = useState([])
 
-  useEffect(()=>{
+  useEffect(() => {
     getShiftMembers();
-  },[])
+  }, [])
+
+
 
   async function getShiftMembers() {
     try {
@@ -25,14 +30,14 @@ const App = () => {
 
   return (
     <>
-    <shiftMembersContext.Provider value={shiftMembers}>
-    <div className='flex w-full'>
-        <div className='h-screen w-1/4 sticky top-0'>
-          <Navbar />
+      <shiftMembersContext.Provider value={[shiftMembers,workAllomentMonitoringData, setWorkAllomentMonitoringData,workAllotmentToolsData, setWorkAllotmentToolsData]}>
+        <div className='flex w-full'>
+          <div className='h-screen w-1/4 sticky top-0'>
+            <Navbar />
+          </div>
+          <NavRoutes />
         </div>
-        <NavRoutes />
-      </div>
-    </shiftMembersContext.Provider>
+      </shiftMembersContext.Provider>
     </>
   )
 }
