@@ -3,6 +3,7 @@ import Header from '../components/Header'
 import { useState, useContext } from 'react'
 import HandoverRows from '../components/HandoverRows'
 import { shiftMembersContext } from '../context/context'
+import PreviewHandover from '../components/PreviewHandover'
 
 
 const ShiftHandover = () => {
@@ -102,9 +103,9 @@ const ShiftHandover = () => {
   }
 
 
-  useEffect(()=>{
+  useEffect(() => {
     console.log(mainData);
-  },[mainData])
+  }, [mainData])
 
 
 
@@ -113,34 +114,54 @@ const ShiftHandover = () => {
 
 
   return (
+    <>
+      <div className=' font-poppins w-full '>
+        {
+          allottedClients && allottedTools ?
+            <>
+              <Header scrollFlag={scrollFlag} handleShiftChange={handleShiftChange} type={type} shiftValue={shiftValue} currentDate={currentDate} handleShare={handleShare} />
+              <table className='mt-6 w-full border-2 border-white border-separate'>
+                <tr>
+                  <th className='p-2 bg-blue-600 text-white rounded-s-lg w-[100px]'>Tools/Clients</th>
+                  <th className='p-2 bg-blue-600 text-white rounded-s-lg w-1/4'>Alert and Ticketing Tools</th>
+                  <th className='p-2 bg-blue-600 text-white rounded-r-lg w-[150px]'>Assigned To</th>
+                  <th className='p-2 bg-blue-600 text-white rounded-r-lg w-[200px]'>Jira Tickets</th>
+                  <th className='p-2 bg-blue-600 text-white rounded-r-lg'>Comments</th>
 
-    <div className=' font-poppins w-full '>
-      {
+                </tr>
+                <HandoverRows setMainData={setMainData} mainData={mainData} allotted={isClients ? allottedClients : allottedTools} getClientsOrTools={getClientsOrTools} setAllottedClients={setAllottedClients} />
+              </table>
+            </>
+            : <div>Please send work allotment..</div>
+        }
 
-        allottedClients && allottedTools ?
+        {mainData &&
           <>
-            <Header scrollFlag={scrollFlag} handleShiftChange={handleShiftChange} type={type} shiftValue={shiftValue} currentDate={currentDate} handleShare={handleShare} />
-
-
             <table className='mt-6 w-full border-2 border-white border-separate'>
-
               <tr>
-                <th className='p-2 bg-blue-600 text-white rounded-s-lg w-[100px]'>Tools/Clients</th>
                 <th className='p-2 bg-blue-600 text-white rounded-s-lg w-1/4'>Alert and Ticketing Tools</th>
                 <th className='p-2 bg-blue-600 text-white rounded-r-lg w-[150px]'>Assigned To</th>
                 <th className='p-2 bg-blue-600 text-white rounded-r-lg w-[200px]'>Jira Tickets</th>
                 <th className='p-2 bg-blue-600 text-white rounded-r-lg'>Comments</th>
 
               </tr>
-              <HandoverRows setMainData={setMainData} mainData={mainData} allotted={isClients ? allottedClients : allottedTools} getClientsOrTools={getClientsOrTools} setAllottedClients={setAllottedClients} />
+              {mainData.map((ele) => {
+                return <PreviewHandover ele={ele}/>
+              })}
+
+
             </table>
           </>
-          : <div>Please send work allotment..</div>
+        }
 
-      }
 
-    </div>
 
+
+      </div>
+
+
+
+    </>
 
   )
 }
