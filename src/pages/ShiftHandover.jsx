@@ -1,25 +1,37 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import Header from '../components/Header'
-import { useState,useContext } from 'react'
+import { useState, useContext } from 'react'
 import HandoverRows from '../components/HandoverRows'
 import { shiftMembersContext } from '../context/context'
 
+
 const ShiftHandover = () => {
   const [scrollFlag, setScrollFlag] = useState(false)
+
   const [shiftValue, setShiftValue] = useState('Select Shift')
   const [currentDate, setCurrentDate] = useState(null)
-  
-
-  const [,workAllomentMonitoringData, setWorkAllomentMonitoringData,workAllotmentToolsData, setWorkAllotmentToolsData] = useContext(shiftMembersContext);
+  const [allottedClients, setAllottedClients] = useState([])
+  const [allottedTools, setAllottedTools] = useState([])
+  const [isClients, setIsClients] = useState(true)
+  const [mainData, setMainData] = useState([])
+  // const [,workAllomentMonitoringData, setWorkAllomentMonitoringData,workAllotmentToolsData, setWorkAllotmentToolsData] = useContext(shiftMembersContext);
 
 
   let type = 'Handover'
+  let tools = localStorage.getItem('TD')
+
+  let values = localStorage.getItem('MTD')
+  useEffect(() => {
+    setAllottedClients(JSON.parse(values))
+    setAllottedTools(JSON.parse(tools))
+  }, [])
+
 
 
   // To get subject and body for mail
   const handleSendEmail = (count) => {
-    setWorkAllomentMonitoringData(tempArr)
-    setWorkAllotmentToolsData(toolsArr)
+
+    // setWorkAllotmentToolsData(toolsArr)
     const subject = `COPS-WorkAlloment ${shiftValue === 'Select Shift' ? null : shiftValue} ${space} ${currentDate}`;
     const body = generateEmailBody();
     if (count == 0) {
@@ -66,11 +78,11 @@ const ShiftHandover = () => {
     setCurrentDate(properDate)
   }
 
-  // To share the mail
+  //   // To share the mail
   function handleShare() {
     setIsShared(prev => !prev);
     //handleAllData();
-    handleSendEmail(count);
+    // handleSendEmail(count);
     setCount(prev => prev + 1);
     // setTimeout(()=>{
     //   handleSendEmail(count);
@@ -78,31 +90,55 @@ const ShiftHandover = () => {
     // },50)
 
   }
-  console.log(workAllotmentToolsData)
+
+
+  function getClientsOrTools(val) {
+    if (val == 'Clients') {
+      setIsClients(true)
+    }
+    else {
+      setIsClients(false)
+    }
+  }
+
+
+  useEffect(()=>{
+    console.log(mainData);
+  },[mainData])
+
+
+
+  // console.log(workAllotmentToolsData)
   window.addEventListener('scroll', changeBgClrOnScroll)
 
 
   return (
+
     <div className=' font-poppins w-full '>
-      <Header scrollFlag={scrollFlag} handleShiftChange={handleShiftChange} type={type} shiftValue={shiftValue} currentDate={currentDate} handleShare={handleShare} />
+      {
+
+        allottedClients && allottedTools ?
+          <>
+            <Header scrollFlag={scrollFlag} handleShiftChange={handleShiftChange} type={type} shiftValue={shiftValue} currentDate={currentDate} handleShare={handleShare} />
 
 
-      <table className='mt-6 w-full border-2 border-white border-separate'>
-       
-          <tr>
-            <th className='p-2 bg-blue-600 text-white rounded-s-lg w-1/4'>Alert and Ticketing Tools</th>
-            <th className='p-2 bg-blue-600 text-white rounded-r-lg'>Assigned To</th>
-            <th className='p-2 bg-blue-600 text-white rounded-r-lg'>Jira Tickets</th>
-            <th className='p-2 bg-blue-600 text-white rounded-r-lg'>Comments</th>
+            <table className='mt-6 w-full border-2 border-white border-separate'>
 
-          </tr>
-          {/* {currentShiftMemebers ? currentShiftMemebers.map((emp, index) => {
-            return <AllotmentRows empname={emp.empname} key={emp.id} idx={index} optionsTags={toolsTags} filteredClientLists={filteredToolsLists} addRemovedTags={addRemovedToolsTags} allotedClients={allotedTools} handleShare={handleShare} isShared={isShared} getHandoverMember={getHandoverMember} disableFlag={toolsFlag} setDisableFlag={setToolsFlag} />
-          }) : ''} */}
-        <HandoverRows workAllotmentToolsData={workAllotmentToolsData} />
-        </table>
-        
-        <button className= {`py-1 px-3 bg-blue-600 hover:bg-blue-400 transition-all duration-100 rounded-md text-white`} >Add More</button>
+              <tr>
+                <th className='p-2 bg-blue-600 text-white rounded-s-lg w-[100px]'>Tools/Clients</th>
+                <th className='p-2 bg-blue-600 text-white rounded-s-lg w-1/4'>Alert and Ticketing Tools</th>
+                <th className='p-2 bg-blue-600 text-white rounded-r-lg w-[150px]'>Assigned To</th>
+                <th className='p-2 bg-blue-600 text-white rounded-r-lg w-[200px]'>Jira Tickets</th>
+                <th className='p-2 bg-blue-600 text-white rounded-r-lg'>Comments</th>
+
+              </tr>
+              <HandoverRows setMainData={setMainData} mainData={mainData} allotted={isClients ? allottedClients : allottedTools} getClientsOrTools={getClientsOrTools} setAllottedClients={setAllottedClients} />
+            </table>
+          </>
+          : <div>Please send work allotment..</div>
+
+      }
+
     </div>
 
 

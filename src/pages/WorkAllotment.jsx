@@ -105,14 +105,6 @@ const WorkAllotment = () => {
 
   let shiftMembers = [];
 
-  // useEffect(()=>{
-  //   handleAllData(); // to overcome two timeshare 
-  // },[isShared])
-
-
-  // useEffect(()=>{
-  //   handleSendEmail()
-  // },[emailFlag])
 
   // to change the heading once shiftvalue is changed
   function handleShiftChange(event) {
@@ -229,14 +221,13 @@ const WorkAllotment = () => {
   // To share the mail
   function handleShare() {
     setIsShared(prev => !prev);
-    //handleAllData();
     handleSendEmail(count);
     setCount(prev => prev + 1);
-    // setTimeout(()=>{
-    //   handleSendEmail(count);
-    //   setCount(prev=>prev+1);
-    // },50)
 
+    if (tempArr.length && toolsArr.length) {
+      localStorage.setItem("MTD",JSON.stringify(tempArr))
+      localStorage.setItem("TD",JSON.stringify(toolsArr))
+    }
   }
 
   // To get the data of the handover member
@@ -256,7 +247,7 @@ const WorkAllotment = () => {
   }
 
 
-
+//console.log('----Monitoring Data ----\n',tempArr,'-----Tools Data------\n',toolsArr);
   window.addEventListener('scroll', changeBgClrOnScroll)
 
   return (
