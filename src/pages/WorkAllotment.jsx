@@ -6,6 +6,7 @@ import { toast } from 'sonner';
 import Shiftmembersdetails from '../components/Shiftmembersdetails';
 import { shiftMembersContext } from '../context/context'
 import Header from '../components/Header';
+import { faL } from '@fortawesome/free-solid-svg-icons';
 
 const WorkAllotment = () => {
   const [currentDate, setCurrentDate] = useState(null)
@@ -21,6 +22,7 @@ const WorkAllotment = () => {
   const [inShift, setInShift] = useState([])
   const [onLeave, setOnLeave] = useState([])
   const [onWeekOff, setOnWeekOff] = useState([])
+  
 
 
   let type='Work Allotment'
@@ -227,6 +229,7 @@ const WorkAllotment = () => {
     if (tempArr.length && toolsArr.length) {
       localStorage.setItem("MTD",JSON.stringify(tempArr))
       localStorage.setItem("TD",JSON.stringify(toolsArr))
+      localStorage.setItem("MD", JSON.stringify([]))
     }
   }
 

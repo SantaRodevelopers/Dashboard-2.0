@@ -1,16 +1,17 @@
 import React, { useState } from 'react'
 
-function HandoverRows({ allotted, getClientsOrTools, setMainData, mainData }) {
+function HandoverRows({ allotted, getClientsOrTools, setMainData, mainData,temp,setTemp }) {
 
     let clientSelected
     // let jiraTickets
-   
+    let id = new Date().getTime().toString()
 
 
     const [assigneeName, setAssigneeName] = useState('')
     const [displayClient, setDisplayClient] = useState()
-    const [jiraTickets,setJiraTickets] = useState()
-    const [comments,setComments]=useState()
+    const [jiraTickets, setJiraTickets] = useState()
+    const [comments, setComments] = useState()
+
 
 
     function handleSelect(event) {
@@ -36,17 +37,29 @@ function HandoverRows({ allotted, getClientsOrTools, setMainData, mainData }) {
     }
 
 
-    function getMainData() {
-        let client = { displayClient, assigneeName, jiraTickets, comments }
 
-        setMainData([...mainData, client])
+    function getMainData() {
+        let client = { id, displayClient, assigneeName, jiraTickets, comments }
+
+        setTemp([...temp, client])
+    
+       // toLocalStorage()
+        
         setDisplayClient('')
         setAssigneeName('')
         setJiraTickets('')
         setComments('')
+
+        
+       //    toLocalStorage()
     }
 
-    // console.log(allottedClients);
+function clearMDLocal(){
+    localStorage.setItem("MD",JSON.stringify([]))
+    setTemp([])
+}
+
+
 
 
     return (
@@ -79,7 +92,9 @@ function HandoverRows({ allotted, getClientsOrTools, setMainData, mainData }) {
                 <td><textarea value={jiraTickets} onChange={(event) => { setJiraTickets(event.target.value) }} className='w-full px-2 py-1 text-sm h-20 border-2 border-gray-300' name="" id="" ></textarea></td>
                 <td><textarea value={comments} onChange={(event) => { setComments(event.target.value) }} className='w-full px-2 py-1 text-sm h-20 border-2 border-gray-300' name="" id="" ></textarea></td>
             </tr>
-            <tr><button className={`py-1 px-3 bg-blue-600 hover:bg-blue-400 transition-all duration-100 rounded-md text-white`} onClick={getMainData} >Add More</button> </tr>
+            <tr><button className={`py-1 px-3 bg-blue-600 hover:bg-blue-400 transition-all duration-100 rounded-md text-white`} onClick={getMainData} >Add More</button> <button className={`py-1 px-3 bg-blue-600 hover:bg-blue-400 transition-all duration-100 rounded-md text-white`} onClick={clearMDLocal} >Clear Handover Data</button> </tr>
+            
+
         </>
     )
 }

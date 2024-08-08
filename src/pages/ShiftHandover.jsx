@@ -6,6 +6,7 @@ import { shiftMembersContext } from '../context/context'
 import PreviewHandover from '../components/PreviewHandover'
 
 
+
 const ShiftHandover = () => {
   const [scrollFlag, setScrollFlag] = useState(false)
 
@@ -15,17 +16,26 @@ const ShiftHandover = () => {
   const [allottedTools, setAllottedTools] = useState([])
   const [isClients, setIsClients] = useState(true)
   const [mainData, setMainData] = useState([])
+  const [edit,setEdit]=useState()
+  const [temp,setTemp]=useState([])
+  const [nullFlag,setNullFlag]=useState(true)
+ 
   // const [,workAllomentMonitoringData, setWorkAllomentMonitoringData,workAllotmentToolsData, setWorkAllotmentToolsData] = useContext(shiftMembersContext);
 
 
   let type = 'Handover'
   let tools = localStorage.getItem('TD')
-
+  
   let values = localStorage.getItem('MTD')
   useEffect(() => {
     setAllottedClients(JSON.parse(values))
     setAllottedTools(JSON.parse(tools))
+    setTemp(JSON.parse(localStorage.getItem('MD')))
   }, [])
+
+  
+
+     console.log(temp);
 
 
 
@@ -104,12 +114,22 @@ const ShiftHandover = () => {
 
 
   useEffect(() => {
-    console.log(mainData);
+    // console.log(mainData);
   }, [mainData])
 
 
 
+useEffect(()=>{
+
+  if (temp.length>0) {
+    localStorage.setItem("MD", JSON.stringify(temp))
+}
+},[temp])
+
+
   // console.log(workAllotmentToolsData)
+
+console.log(mainData);
   window.addEventListener('scroll', changeBgClrOnScroll)
 
 
@@ -129,25 +149,29 @@ const ShiftHandover = () => {
                   <th className='p-2 bg-blue-600 text-white rounded-r-lg'>Comments</th>
 
                 </tr>
-                <HandoverRows setMainData={setMainData} mainData={mainData} allotted={isClients ? allottedClients : allottedTools} getClientsOrTools={getClientsOrTools} setAllottedClients={setAllottedClients} />
+                <HandoverRows temp={temp} setTemp={setTemp} edit={edit} setMainData={setMainData} mainData={mainData} allotted={isClients ? allottedClients : allottedTools} getClientsOrTools={getClientsOrTools} setAllottedClients={setAllottedClients} />
               </table>
             </>
             : <div>Please send work allotment..</div>
         }
 
-        {mainData &&
+        {temp!=null &&
           <>
             <table className='mt-6 w-full border-2 border-white border-separate'>
               <tr>
                 <th className='p-2 bg-blue-600 text-white rounded-s-lg w-1/4'>Alert and Ticketing Tools</th>
                 <th className='p-2 bg-blue-600 text-white rounded-r-lg w-[150px]'>Assigned To</th>
                 <th className='p-2 bg-blue-600 text-white rounded-r-lg w-[200px]'>Jira Tickets</th>
-                <th className='p-2 bg-blue-600 text-white rounded-r-lg'>Comments</th>
+                <th className='p-2 bg-blue-600 text-white rounded-r-lg w-1/2'>Comments</th>
 
               </tr>
-              {mainData.map((ele) => {
-                return <PreviewHandover ele={ele}/>
+              {temp.map((ele) => {
+                return <PreviewHandover temp={temp} setMainData={setMainData} mainData={mainData} edit={edit} setEdit={setEdit} ele={ele} /> 
+                
               })}
+              
+
+              
 
 
             </table>
