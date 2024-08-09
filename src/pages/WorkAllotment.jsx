@@ -6,7 +6,7 @@ import { toast } from 'sonner';
 import Shiftmembersdetails from '../components/Shiftmembersdetails';
 import { shiftMembersContext } from '../context/context'
 import Header from '../components/Header';
-import { faL } from '@fortawesome/free-solid-svg-icons';
+//import { faL } from '@fortawesome/free-solid-svg-icons';
 
 const WorkAllotment = () => {
   const [currentDate, setCurrentDate] = useState(null)

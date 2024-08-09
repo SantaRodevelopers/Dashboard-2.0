@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
+import {toast} from 'sonner'
 
-function HandoverRows({ allotted, getClientsOrTools, setMainData, mainData,temp,setTemp }) {
+function HandoverRows({ allotted, getClientsOrTools, setMainData, mainData, temp, setTemp }) {
 
     let clientSelected
     // let jiraTickets
@@ -41,23 +42,30 @@ function HandoverRows({ allotted, getClientsOrTools, setMainData, mainData,temp,
     function getMainData() {
         let client = { id, displayClient, assigneeName, jiraTickets, comments }
 
-        setTemp([...temp, client])
-    
-       // toLocalStorage()
-        
+        if((client.displayClient && client.assigneeName)){
+            setTemp([...temp, client])
+            toast.success('Added ...',{
+                description:`Added ${client.displayClient}`
+            })
+        }else{
+            toast.error('Please select the client and assignee name')
+        }
+
+        // toLocalStorage()
+
         setDisplayClient('')
         setAssigneeName('')
         setJiraTickets('')
         setComments('')
 
-        
-       //    toLocalStorage()
+
+        //    toLocalStorage()
     }
 
-function clearMDLocal(){
-    localStorage.setItem("MD",JSON.stringify([]))
-    setTemp([])
-}
+    function clearMDLocal() {
+        localStorage.setItem("MD", JSON.stringify([]))
+        setTemp([])
+    }
 
 
 
@@ -74,9 +82,6 @@ function clearMDLocal(){
                     <select onChange={handleSelect} name="" id="" className="w-full px-2 py-1 text-sm h-9 border-2 border-gray-300">
                         <option value="Select">Select</option>
                         {
-
-
-
                             allotted.map((ele, idx) => {
                                 return ele.clients.length && ele.clients.map((e, i) => {
                                     return <option value={e}>{e}</option>
@@ -92,8 +97,14 @@ function clearMDLocal(){
                 <td><textarea value={jiraTickets} onChange={(event) => { setJiraTickets(event.target.value) }} className='w-full px-2 py-1 text-sm h-20 border-2 border-gray-300' name="" id="" ></textarea></td>
                 <td><textarea value={comments} onChange={(event) => { setComments(event.target.value) }} className='w-full px-2 py-1 text-sm h-20 border-2 border-gray-300' name="" id="" ></textarea></td>
             </tr>
-            <tr><button className={`py-1 px-3 bg-blue-600 hover:bg-blue-400 transition-all duration-100 rounded-md text-white`} onClick={getMainData} >Add More</button> <button className={`py-1 px-3 bg-blue-600 hover:bg-blue-400 transition-all duration-100 rounded-md text-white`} onClick={clearMDLocal} >Clear Handover Data</button> </tr>
-            
+            <tr className='w-fit'>
+                <td>
+                    <button className={`py-1 px-3 bg-blue-600 hover:bg-blue-400 transition-all duration-100 rounded-md text-white`} onClick={getMainData} >Add More</button>
+                </td>
+                <td>
+                    <button className={`py-1 px-3 bg-blue-600 hover:bg-blue-400 transition-all duration-100 rounded-md text-white w-fit`} onClick={clearMDLocal} >Clear Handover Data</button>
+                </td>
+            </tr>
 
         </>
     )
