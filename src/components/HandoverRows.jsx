@@ -72,7 +72,7 @@ function HandoverRows({ allotted, getClientsOrTools, setMainData, mainData, temp
 
     return (
         <>
-            <tr>
+            <tr className='border-3 border-gray-500'>
                 <td><select onChange={(event) => { getClientsOrTools(event.target.value) }} className='w-full' name="" id="">
                     <option value="Clients">Clients</option>
                     <option value="Tools">Tools</option>

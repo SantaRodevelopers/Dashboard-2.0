@@ -61,7 +61,7 @@ function PreviewHandover({ ele, setEdit, mainData, edit, setMainData, temp, hand
     setSaveFlag(false)
     seteditFlag(false)
 
-    toast.success('Edited things are saved...',{
+    toast.success('Edit saved...',{
       description: `You have edited ${ele.displayClient}`
     })
   }
@@ -69,10 +69,10 @@ function PreviewHandover({ ele, setEdit, mainData, edit, setMainData, temp, hand
   return (
     <>
       <tr className='text-center font-poppins'>
-        <td>{ele.displayClient}</td>
-        <td>{ele.assigneeName}</td>
-        <td>{editFlag ? <textarea id={ele.id} className='w-full text-center border-2 border-gray-300' onChange={(event) => { setEditedJiraTickets(event.target.value); setJiraEdited(true) }}>{saveFlag && ele.jiraTickets}</textarea> : saveFlag ? editedJiraTickets : ele.jiraTickets}</td>
-        <td>{editFlag ? <textarea id={ele.id} className='w-full text-center border-2 border-gray-300' onChange={(event) => { setEditedComments(event.target.value); setCommentsEdited(true) }}>{saveFlag && ele.comments}</textarea> : saveFlag ? editedComments : ele.comments}</td>
+        <td className=' border-2 border-gray-300'>{ele.displayClient}</td>
+        <td className=' border-2 border-gray-300'>{ele.assigneeName}</td>
+        <td className=' border-2 border-gray-300'>{editFlag ? <textarea id={ele.id} className='w-full text-center border-2 border-gray-300' onChange={(event) => { setEditedJiraTickets(event.target.value); setJiraEdited(true) }}>{saveFlag && ele.jiraTickets}</textarea> : saveFlag ? editedJiraTickets : ele.jiraTickets}</td>
+        <td className=' border-2 border-gray-300'>{editFlag ? <textarea id={ele.id} className='w-full text-center border-2 border-gray-300' onChange={(event) => { setEditedComments(event.target.value); setCommentsEdited(true) }}>{saveFlag && ele.comments}</textarea> : saveFlag ? editedComments : ele.comments}</td>
         <div className='flex gap-2 my-2'>
           <div onClick={handleEdit} className={`w-9 h-9 flex items-center justify-center rounded-full ${editFlag?'invisible':'bg-blue-500 text-white visible'}`}>
             <i className="fa-regular fa-pen-to-square"></i>
