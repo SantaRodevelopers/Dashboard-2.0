@@ -1,7 +1,8 @@
+import { fas } from '@fortawesome/free-solid-svg-icons'
 import React, { useState } from 'react'
 import {toast} from 'sonner'
 
-function HandoverRows({ allotted, getClientsOrTools, setMainData, mainData, temp, setTemp }) {
+function HandoverRows({ allotted, getClientsOrTools, setMainData, mainData, temp, setTemp, setClientsOrToolsFlag }) {
 
     let clientSelected
     // let jiraTickets
@@ -57,6 +58,7 @@ function HandoverRows({ allotted, getClientsOrTools, setMainData, mainData, temp
         setAssigneeName('')
         setJiraTickets('')
         setComments('')
+        setClientsOrToolsFlag(false)
 
 
         //    toLocalStorage()
@@ -102,7 +104,7 @@ function HandoverRows({ allotted, getClientsOrTools, setMainData, mainData, temp
                     <button className={`py-1 px-3 bg-blue-600 hover:bg-blue-400 transition-all duration-100 rounded-md text-white`} onClick={getMainData} >Add More</button>
                 </td>
                 <td>
-                    <button className={`py-1 px-3 bg-blue-600 hover:bg-blue-400 transition-all duration-100 rounded-md text-white w-fit`} onClick={clearMDLocal} >Clear Handover Data</button>
+                    <button className={`py-1 px-3 bg-blue-600 hover:bg-blue-400 transition-all duration-100 rounded-md text-white w-fit`} onClick={clearMDLocal} >Clear Data</button>
                 </td>
             </tr>
 

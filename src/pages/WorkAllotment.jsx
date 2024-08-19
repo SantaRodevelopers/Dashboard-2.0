@@ -233,6 +233,9 @@ const WorkAllotment = () => {
     }
   }
 
+  useEffect(()=>{
+    localStorage.setItem("MD", JSON.stringify([]))
+  },[])
   // To get the data of the handover member
   function getHandoverMember(member) {
     setHandoverMember(member)

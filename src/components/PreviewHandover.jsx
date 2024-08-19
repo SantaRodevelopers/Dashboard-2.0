@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react'
 //import { faHouse} from '@awesome.me/kit-KIT_CODE/icons/classic/solid'
 import {toast} from 'sonner'
 
-function PreviewHandover({ ele, setEdit, mainData, edit, setMainData, temp, handleDelete }) {
+function PreviewHandover({ ele, setEdit, mainData, edit, setMainData, temp, handleDelete,localstoreName }) {
 
   const [editvalue, setEditValue] = useState([])
   const [editFlag, seteditFlag] = useState(false)
@@ -56,7 +56,7 @@ function PreviewHandover({ ele, setEdit, mainData, edit, setMainData, temp, hand
       return ele
     })
 
-    localStorage.setItem("MD", JSON.stringify(val))
+    localStorage.setItem(localstoreName, JSON.stringify(val))
     setMainData(val)
     setSaveFlag(false)
     seteditFlag(false)
@@ -71,8 +71,8 @@ function PreviewHandover({ ele, setEdit, mainData, edit, setMainData, temp, hand
       <tr className='text-center font-poppins'>
         <td className=' border-2 border-gray-300'>{ele.displayClient}</td>
         <td className=' border-2 border-gray-300'>{ele.assigneeName}</td>
-        <td className=' border-2 border-gray-300'>{editFlag ? <textarea id={ele.id} className='w-full text-center border-2 border-gray-300' onChange={(event) => { setEditedJiraTickets(event.target.value); setJiraEdited(true) }}>{saveFlag && ele.jiraTickets}</textarea> : saveFlag ? editedJiraTickets : ele.jiraTickets}</td>
-        <td className=' border-2 border-gray-300'>{editFlag ? <textarea id={ele.id} className='w-full text-center border-2 border-gray-300' onChange={(event) => { setEditedComments(event.target.value); setCommentsEdited(true) }}>{saveFlag && ele.comments}</textarea> : saveFlag ? editedComments : ele.comments}</td>
+        <td className=' border-2 border-gray-300'>{editFlag ? <textarea id={ele.id} className='outline-none w-full text-center ' onChange={(event) => { setEditedJiraTickets(event.target.value); setJiraEdited(true) }}>{saveFlag && ele.jiraTickets}</textarea> : saveFlag ? editedJiraTickets : ele.jiraTickets}</td>
+        <td className=' border-2 border-gray-300'>{editFlag ? <textarea id={ele.id} className='outline-none w-full text-center ' onChange={(event) => { setEditedComments(event.target.value); setCommentsEdited(true) }}>{saveFlag && ele.comments}</textarea> : saveFlag ? editedComments : ele.comments}</td>
         <div className='flex gap-2 my-2'>
           <div onClick={handleEdit} className={`w-9 h-9 flex items-center justify-center rounded-full ${editFlag?'invisible':'bg-blue-500 text-white visible'}`}>
             <i className="fa-regular fa-pen-to-square"></i>
