@@ -23,7 +23,7 @@ const WorkAllotment = () => {
   const [onLeave, setOnLeave] = useState([])
   const [onWeekOff, setOnWeekOff] = useState([])
   
-
+  const [shiftPeople,setShiftPeople] = useState({inShift:'',onWeekOff:'',onLeave:''})
 
   let type='Work Allotment'
   let space = " - "
@@ -226,10 +226,12 @@ const WorkAllotment = () => {
     handleSendEmail(count);
     setCount(prev => prev + 1);
 
+
     if (tempArr.length && toolsArr.length) {
       localStorage.setItem("MTD",JSON.stringify(tempArr))
       localStorage.setItem("TD",JSON.stringify(toolsArr))
       localStorage.setItem("MD", JSON.stringify([]))
+      localStorage.setItem("Shift People",JSON.stringify({"inShift":inShift,"onLeave":onLeave,"onWeekOff":onWeekOff,"Handover":HandoverMember}))
     }
   }
 

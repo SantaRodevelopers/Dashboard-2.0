@@ -2,8 +2,8 @@ import { fas } from '@fortawesome/free-solid-svg-icons'
 import React, { useState } from 'react'
 import {toast} from 'sonner'
 
-function HandoverRows({ allotted, getClientsOrTools, setMainData, mainData, temp, setTemp, setClientsOrToolsFlag }) {
-
+function HandoverRows({ allotted, getClientsOrTools, setMainData, mainData, temp, setTemp, setClientsOrToolsFlag,RenderFlag }) {
+    let client
     let clientSelected
     // let jiraTickets
     let id = new Date().getTime().toString()
@@ -13,6 +13,8 @@ function HandoverRows({ allotted, getClientsOrTools, setMainData, mainData, temp
     const [displayClient, setDisplayClient] = useState()
     const [jiraTickets, setJiraTickets] = useState()
     const [comments, setComments] = useState()
+    const [type,setType]=useState()
+    const [SSLType,setSSLType]=useState()
 
 
 
@@ -41,7 +43,8 @@ function HandoverRows({ allotted, getClientsOrTools, setMainData, mainData, temp
 
 
     function getMainData() {
-        let client = { id, displayClient, assigneeName, jiraTickets, comments }
+        RenderFlag ? client = { id, displayClient, SSLType, assigneeName, jiraTickets, comments } : client = { id, displayClient, assigneeName, type,jiraTickets, comments } 
+
 
         if((client.displayClient && client.assigneeName)){
             setTemp([...temp, client])
@@ -58,8 +61,10 @@ function HandoverRows({ allotted, getClientsOrTools, setMainData, mainData, temp
         setAssigneeName('')
         setJiraTickets('')
         setComments('')
+        setType('')
+        setSSLType('Select')
         setClientsOrToolsFlag(false)
-
+        
 
         //    toLocalStorage()
     }
@@ -67,13 +72,17 @@ function HandoverRows({ allotted, getClientsOrTools, setMainData, mainData, temp
     function clearMDLocal() {
         localStorage.setItem("MD", JSON.stringify([]))
         setTemp([])
-    }
+    } 
 
-
+function setDefault(event) {
+    event.target.value = 1;
+}
 
 
     return (
+        
         <>
+        {}
             <tr className='border-3 border-gray-500'>
                 <td><select onChange={(event) => { getClientsOrTools(event.target.value) }} className='w-full' name="" id="">
                     <option value="Clients">Clients</option>
@@ -96,6 +105,28 @@ function HandoverRows({ allotted, getClientsOrTools, setMainData, mainData, temp
                 <td className='text-center w-fit'>
                     <p>{assigneeName}</p>
                 </td>
+
+                
+
+                <td>   
+                    { RenderFlag?
+                            <select onChange={(event)=>{setSSLType(event.target.value)}} className="w-full px-2 py-1 text-sm h-9 border-2 border-gray-300">
+                                 <option selected="selected" value="">Select</option>
+                                 <option value="Renewal">Renewal</option>
+                                 <option value="New">New</option>
+                                 <option value="Decommission">Decommission </option>
+                            </select> :
+                    <select onChange={(event)=>{setType(event.target.value)}} className="w-full px-2 py-1 text-sm h-9 border-2 border-gray-300">
+                    <option value="">Select</option>
+                    <option value="Follow Up">Follow Up</option>
+                    <option value="Current Shift Updates">Current Shift Updates</option>
+                </select>  
+
+                    } 
+         
+                </td>
+
+                {/* <td><textarea value={SSLType} onChange={(event) => { setSSLType(event.target.value) }} className='w-full px-2 py-1 text-sm h-20 border-2 border-gray-300' name="" id="" ></textarea></td> */}
                 <td><textarea value={jiraTickets} onChange={(event) => { setJiraTickets(event.target.value) }} className='w-full px-2 py-1 text-sm h-20 border-2 border-gray-300' name="" id="" ></textarea></td>
                 <td><textarea value={comments} onChange={(event) => { setComments(event.target.value) }} className='w-full px-2 py-1 text-sm h-20 border-2 border-gray-300' name="" id="" ></textarea></td>
             </tr>
