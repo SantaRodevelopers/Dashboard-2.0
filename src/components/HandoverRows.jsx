@@ -2,7 +2,7 @@ import { fas } from '@fortawesome/free-solid-svg-icons'
 import React, { useState } from 'react'
 import {toast} from 'sonner'
 
-function HandoverRows({ allotted, getClientsOrTools, setMainData, mainData, temp, setTemp, setClientsOrToolsFlag,RenderFlag }) {
+function HandoverRows({ allotted, getClientsOrTools, setMainData, mainData, temp, setTemp, setClientsOrToolsFlag,RenderFlag,clearType }) {
     let client
     let clientSelected
     // let jiraTickets
@@ -43,11 +43,11 @@ function HandoverRows({ allotted, getClientsOrTools, setMainData, mainData, temp
 
 
     function getMainData() {
-        RenderFlag ? client = { id, displayClient, SSLType, assigneeName, jiraTickets, comments } : client = { id, displayClient, assigneeName, type,jiraTickets, comments } 
+        RenderFlag ? client = { id, displayClient, SSLType, assigneeName, jiraTickets, comments } : client = { id, displayClient, type,assigneeName,jiraTickets, comments } 
 
 
         if((client.displayClient && client.assigneeName)){
-            setTemp([...temp, client])
+            setTemp([...temp, client]);
             toast.success('Added ...',{
                 description:`Added ${client.displayClient}`
             })
@@ -57,12 +57,15 @@ function HandoverRows({ allotted, getClientsOrTools, setMainData, mainData, temp
 
         // toLocalStorage()
 
+        document.querySelectorAll('#changeToSelect').forEach((df)=>{
+            df.value = "Select";
+        })
+        // document.querySelectorAll('.changeToSelect').value = 'Select';
+
         setDisplayClient('')
         setAssigneeName('')
         setJiraTickets('')
         setComments('')
-        setType('')
-        setSSLType('Select')
         setClientsOrToolsFlag(false)
         
 
@@ -70,19 +73,22 @@ function HandoverRows({ allotted, getClientsOrTools, setMainData, mainData, temp
     }
 
     function clearMDLocal() {
-        localStorage.setItem("MD", JSON.stringify([]))
-        setTemp([])
+        if(RenderFlag){
+            localStorage.setItem("SD", JSON.stringify([]))            
+        }else{
+            localStorage.setItem("MD", JSON.stringify([]))
+        }
+        setTemp([]);
+        clearType();
+        // clearType();
+
     } 
 
-function setDefault(event) {
-    event.target.value = 1;
-}
 
 
     return (
         
         <>
-        {}
             <tr className='border-3 border-gray-500'>
                 <td><select onChange={(event) => { getClientsOrTools(event.target.value) }} className='w-full' name="" id="">
                     <option value="Clients">Clients</option>
@@ -90,7 +96,7 @@ function setDefault(event) {
 
                 </select></td>
                 <td className={`text-center } rounded-s-lg py-2`}>{
-                    <select onChange={handleSelect} name="" id="" className="w-full px-2 py-1 text-sm h-9 border-2 border-gray-300">
+                    <select onChange={handleSelect} name="" id="changeToSelect" className="w-full px-2 py-1 text-sm h-9 border-2 border-gray-300">
                         <option value="Select">Select</option>
                         {
                             allotted.map((ele, idx) => {
@@ -110,16 +116,16 @@ function setDefault(event) {
 
                 <td>   
                     { RenderFlag?
-                            <select onChange={(event)=>{setSSLType(event.target.value)}} className="w-full px-2 py-1 text-sm h-9 border-2 border-gray-300">
-                                 <option selected="selected" value="">Select</option>
+                            <select onChange={(event)=>{setSSLType(event.target.value)}} id="changeToSelect" className="w-full px-2 py-1 text-sm h-9 border-2 border-gray-300">
+                                 <option value="Select">Select</option>
                                  <option value="Renewal">Renewal</option>
                                  <option value="New">New</option>
                                  <option value="Decommission">Decommission </option>
                             </select> :
-                    <select onChange={(event)=>{setType(event.target.value)}} className="w-full px-2 py-1 text-sm h-9 border-2 border-gray-300">
-                    <option value="">Select</option>
-                    <option value="Follow Up">Follow Up</option>
+                    <select onChange={(event)=>{setType(event.target.value)}} id="changeToSelect" className="w-full px-2 py-1 text-sm h-9 border-2 border-gray-300">
+                    <option value="Select">Select</option>
                     <option value="Current Shift Updates">Current Shift Updates</option>
+                    <option value="Follow Up">Follow Up</option>
                 </select>  
 
                     } 
