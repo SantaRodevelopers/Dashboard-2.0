@@ -1,6 +1,9 @@
 import React from 'react'
 
-function Header({ scrollFlag, handleShiftChange, shiftValue, currentDate, handleShare, type }) {
+
+function Header({ scrollFlag, handleShiftChange, shiftValue, currentDate, handleShare, type,sendType }) {
+
+    
     return (
         <>
             
@@ -14,7 +17,8 @@ function Header({ scrollFlag, handleShiftChange, shiftValue, currentDate, handle
                         <option value="NA">NA</option>
                     </select>
 
-                    <button className='py-1 px-3 bg-blue-600 hover:bg-blue-400 transition-all duration-100 rounded-md text-white' onClick={handleShare} onMouseDown={handleShare}>Share</button>
+                    <button className='py-1 px-3 bg-blue-600 hover:bg-blue-400 transition-all duration-100 rounded-md text-white'   onClick={handleShare} 
+                    onMouseDown={sendType === 'WA' && handleShare} >Share</button>
                 </div>
             </div>
 

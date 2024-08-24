@@ -50,6 +50,8 @@ const ShiftHandover = () => {
   let tools = localStorage.getItem('TD')
   let slNo = 1;
   let slNos = 1;
+  let slNoss = 1;
+
   let values = localStorage.getItem('MTD')
   useEffect(() => {
     setAllottedClients(JSON.parse(values))
@@ -68,20 +70,21 @@ const ShiftHandover = () => {
     //   emailBody+=` <tr><td>${ele}</td></tr></table>`
     //  })
 
-
+  
+    
     // emailBody += `<table border="1" style="border-collapse: collapse; margin-bottom:10px; "><tr><td style="background-color: #2D3250; color:white; font-weight:bold;padding:10px;text-align:center;">Associates in Shift</td><td style="padding:10px;text-align:center;">${inShift}</td></tr><tr><td style="background-color: #2D3250; color:white;font-weight:bold;padding:10px;text-align:center;">Associates on Leave</td><td style="padding:10px;text-align:center;">${onLeave}</td></tr> </tr><tr><td style="background-color: #2D3250; color:white;font-weight:bold;padding:10px;text-align:center;">Week off</td><td style="padding:10px;text-align:center;">${onWeekOff}</td></tr></table> </div>`
 
-
+    
 
     emailBody += `<table border="1" style="border-collapse: collapse; margin-bottom:10px; "><tr><td style="background-color: #2D3250; color:white; font-weight:bold;padding:10px;text-align:center;">Associates in Shift</td><td style="padding:10px;text-align:center;">${shiftPeople.inShift}</td></tr><tr><td style="background-color: #2D3250; color:white;font-weight:bold;padding:10px;text-align:center;">Associates on Leave</td><td style="padding:10px;text-align:center;">${shiftPeople.onLeave}</td></tr> </tr><tr><td style="background-color: #2D3250; color:white;font-weight:bold;padding:10px;text-align:center;">Week off</td><td style="padding:10px;text-align:center;">${shiftPeople.onWeekOff}</td></tr></table> </div>`
 
-    emailBody += '<br></br><br></br>'
 
+    emailBody+=`<br></br><span style="font-size:1vw">${additionalNotes}</span>`
 
-    emailBody += '<table><tr><th colspan="4" style="color: white; padding:10px ;background-color: #2D3250;">Current Shift Updates</th></tr><tr><th style="color: white; padding:10px ;background-color: #424769;">SL No</th><th style="color: white; padding:10px ;background-color: #424769;">Client Name</th><th style="color: white; padding:10px ;background-color: #424769;">Worked by</th><th style="color: white; padding:10px ;background-color: #424769;">Ticket # associated (JIRA/SN)</th></tr>';
+    emailBody += '<table border="1" style="border-collapse: collapse;"><tr><th colspan="5" style="color: white; padding:10px ;background-color: #2D3250;">Current Shift Updates</th></tr><tr><th style="color: white; padding:10px ;background-color: #424769;">SL No</th><th style="color: white; padding:10px ;background-color: #424769;">Client Name</th><th style="color: white; padding:10px ;background-color: #424769;">Worked by</th><th style="color: white; padding:10px ;background-color: #424769;">Ticket # associated (JIRA/SN)</th><th style="color: white; padding:10px ;background-color: #424769;">Comments</th></tr>';
     temp.forEach(user => {
       if (user.type == 'Current Shift Updates') {
-        emailBody += `<tr><td style="padding:5px;text-align:center; width:10%;">${slNo}</td><td style="padding:5px;text-align:center; width:80%;">${user.displayClient}</td><td style="padding:5px;text-align:center;width:80%;">${user.assigneeName}</td><td style="padding:5px;text-align:center;width:80%;">${user.jiraTickets}</td></tr>`;
+        emailBody += `<tr><td style="padding:5px;text-align:center; width:10%;">${slNo}</td><td style="padding:5px;text-align:center; width:80%;">${user.displayClient}</td><td style="padding:5px;text-align:center;width:80%;">${user.assigneeName}</td><td style="padding:5px;text-align:center;width:80%;">${user.jiraTickets==''?'':user.jiraTickets}</td><td style="padding:5px;text-align:center;width:80%;">${user.comments==''?'': user.comments}<td></tr>`;
         slNo = slNo + 1
       }
     });
@@ -90,10 +93,10 @@ const ShiftHandover = () => {
     emailBody += '<br></br><br></br>'
 
 
-    emailBody += '<table><tr><th colspan="5" style="color: white; padding:10px ;background-color: #2D3250;">Follow-Up</th></tr><tr><th style="color: white; padding:10px ;background-color: #424769;">SL No</th><th style="color: white; padding:10px ;background-color: #424769;">Client Name</th><th style="color: white; padding:10px ;background-color: #424769;">Worked by</th><th style="color: white; padding:10px ;background-color: #424769;">Comments</th></tr>';
+    emailBody += '<table border="1" style="border-collapse: collapse;"><tr><th colspan="5" style="color: white; padding:10px ;background-color: #2D3250;">Follow-Up</th></tr><tr><th style="color: white; padding:10px ;background-color: #424769;">SL No</th><th style="color: white; padding:10px ;background-color: #424769;">Client Name</th><th style="color: white; padding:10px ;background-color: #424769;">Worked by</th><th style="color: white; padding:10px ;background-color: #424769;">Ticket No</th><th style="color: white; padding:10px ;background-color: #424769;">Comments</th></tr>';
     temp.forEach(user => {
       if (user.type == 'Follow Up') {
-        emailBody += `<tr><td style="padding:5px;text-align:center; width:10%;">${slNos}</td><td style="padding:5px;text-align:center; width:80%;">${user.displayClient}</td><td style="padding:5px;text-align:center;width:80%;">${user.assigneeName}</td><td style="padding:5px;text-align:center;width:80%;">${user.comments}</td></tr>`;
+        emailBody += `<tr><td style="padding:5px;text-align:center; width:10%;">${slNos}</td><td style="padding:5px;text-align:center; width:80%;">${user.displayClient}</td><td style="padding:5px;text-align:center;width:80%;">${user.assigneeName}</td><td style="padding:5px;text-align:center;width:80%;">${user.jiraTickets==''?'':user.jiraTickets}</td><td style="padding:5px;text-align:center;width:80%;">${user.comments==''?'': user.comments}</td></tr>`;
         slNos = slNos + 1
       }
     });
@@ -103,11 +106,11 @@ const ShiftHandover = () => {
     emailBody += '<br></br><br></br>'
 
 
-    emailBody += '<table><tr><th colspan="5" style="color: white; padding:10px ;background-color: #2D3250;">SSL Updates</th></tr><tr><th style="color: white; padding:10px ;background-color: #424769;">SL No</th><th style="color: white; padding:10px ;background-color: #424769;">Client Name</th><th style="color: white; padding:10px ;background-color: #424769;">Worked by</th><th style="color: white; padding:10px ;background-color: #424769;">Associated Ticket No</th><th style="color: white; padding:10px ;background-color: #424769;">Request Type</th><th style="color: white; padding:10px ;background-color: #424769;">Comments</th></tr>';
+    emailBody += '<table border="1" style="border-collapse: collapse;"><tr><th colspan="6" style="color: white; padding:10px ;background-color: #2D3250;">SSL Updates</th></tr><tr><th style="color: white; padding:10px ;background-color: #424769;">SL No</th><th style="color: white; padding:10px ;background-color: #424769;">Client Name</th><th style="color: white; padding:10px ;background-color: #424769;">Worked by</th><th style="color: white; padding:10px ;background-color: #424769;">Associated Ticket No</th><th style="color: white; padding:10px ;background-color: #424769;">Request Type</th><th style="color: white; padding:10px ;background-color: #424769;">Comments</th></tr>';
     tempSSL.forEach(user => {
 
-      emailBody += `<tr><td style="padding:5px;text-align:center; width:10%;">${slNos}</td><td style="padding:5px;text-align:center; width:80%;">${user.displayClient}</td><td style="padding:5px;text-align:center;width:80%;">${user.assigneeName}</td><td style="padding:5px;text-align:center;width:80%;">${user.jiraTickets}</td><td style="padding:5px;text-align:center;width:80%;">${user.SSLType}</td><td style="padding:5px;text-align:center;width:80%;">${user.comments}</td></tr>`;
-      slNos = slNos + 1
+      emailBody += `<tr><td style="padding:5px;text-align:center; width:10%;">${slNos}</td><td style="padding:5px;text-align:center; width:80%;">${user.displayClient}</td><td style="padding:5px;text-align:center;width:80%;">${user.assigneeName}</td><td style="padding:5px;text-align:center;width:80%;">${user.jiraTickets==''?'':user.jiraTickets}</td><td style="padding:5px;text-align:center;width:80%;">${user.SSLType}</td><td style="padding:5px;text-align:center;width:80%;">${user.comments==''?'': user.comments}</td></tr>`;
+      slNoss = slNoss + 1
 
 
 
@@ -133,6 +136,10 @@ const ShiftHandover = () => {
 
     return emailBody;
   };
+
+  useEffect(()=>{
+JSON.parse(localStorage.getItem('prevShiftHO'))!=JSON.parse(localStorage.getItem('prevShiftWA')) && handleShare()
+  },[])
 
   // To get subject and body for mail
   const handleSendEmail = (count) => {
@@ -189,6 +196,8 @@ const ShiftHandover = () => {
     //handleAllData();
     handleSendEmail(count);
     setCount(prev => prev + 1);
+
+    localStorage.setItem("prevShiftHO",JSON.stringify(shiftValue))
     // setTimeout(()=>{
     //   handleSendEmail(count);
     //   setCount(prev=>prev+1);
@@ -215,7 +224,7 @@ const ShiftHandover = () => {
   }, [temp])
 
   useEffect(() => {
-    if (tempSSL.length > 0) {
+    if (tempSSL.length>0) {
       localStorage.setItem("SD", JSON.stringify(tempSSL))
     }
     seggregateSslType(tempSSL)
@@ -368,7 +377,7 @@ const ShiftHandover = () => {
 
           allottedClients && allottedTools ?
             <>
-              <Header scrollFlag={scrollFlag} handleShiftChange={handleShiftChange} type={type} shiftValue={shiftValue} currentDate={currentDate} handleShare={handleShare} />
+              <Header sendType={'HO'} scrollFlag={scrollFlag} handleShiftChange={handleShiftChange} type={type} shiftValue={shiftValue} currentDate={currentDate} handleShare={handleShare} />
               <span className='flex  p-1.5 mt-8'>
                 <i class={`${hideFlag ? 'fa fa-caret-square-o-right fa-lg ' : 'fa fa-caret-square-o-right fa-lg fa-rotate-90 '}`} onClick={handleHide} ></i>
               </span>

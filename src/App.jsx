@@ -12,6 +12,14 @@ const App = () => {
 
   useEffect(() => {
     getShiftMembers();
+
+    if(localStorage.getItem('MD')==null|| localStorage.getItem('SD')==0 ){
+      localStorage.setItem("MD", JSON.stringify([]))
+      localStorage.setItem("SD", JSON.stringify([]))
+    }
+
+
+    console.log(JSON.parse(localStorage.getItem('MD')));
   }, [])
 
 
@@ -30,7 +38,7 @@ const App = () => {
 
   return (
     <>
-      <shiftMembersContext.Provider value={[shiftMembers,workAllomentMonitoringData, setWorkAllomentMonitoringData,workAllotmentToolsData, setWorkAllotmentToolsData]}>
+      <shiftMembersContext.Provider value={[shiftMembers, workAllomentMonitoringData, setWorkAllomentMonitoringData, workAllotmentToolsData, setWorkAllotmentToolsData]}>
         <div className='flex w-full'>
           <div className='h-screen w-1/4 sticky top-0'>
             <Navbar />

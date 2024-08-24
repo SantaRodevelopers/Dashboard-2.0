@@ -226,18 +226,24 @@ const WorkAllotment = () => {
     handleSendEmail(count);
     setCount(prev => prev + 1);
 
+    localStorage.setItem("prevShiftWA",JSON.stringify(shiftValue))
 
     if (tempArr.length && toolsArr.length) {
       localStorage.setItem("MTD",JSON.stringify(tempArr))
       localStorage.setItem("TD",JSON.stringify(toolsArr))
       localStorage.setItem("MD", JSON.stringify([]))
+      localStorage.setItem("SD", JSON.stringify([]))
       localStorage.setItem("Shift People",JSON.stringify({"inShift":inShift,"onLeave":onLeave,"onWeekOff":onWeekOff,"Handover":HandoverMember}))
     }
   }
 
   useEffect(()=>{
-    localStorage.setItem("MD", JSON.stringify([]))
+    if(JSON.parse(localStorage.getItem('MD')).length==null || JSON.parse(localStorage.getItem('SD')).length==null ){
+      localStorage.setItem("MD", JSON.stringify([]))
+      localStorage.setItem("SD", JSON.stringify([]))
+    }
   },[])
+  
   // To get the data of the handover member
   function getHandoverMember(member) {
     setHandoverMember(member)
@@ -260,7 +266,7 @@ const WorkAllotment = () => {
 
   return (
     <div className=' font-poppins w-full '>
-    <Header scrollFlag={scrollFlag} handleShiftChange={handleShiftChange} type={type} shiftValue={shiftValue} currentDate={currentDate} handleShare={handleShare} />
+    <Header  sendType={'WA'} scrollFlag={scrollFlag} handleShiftChange={handleShiftChange} type={type} shiftValue={shiftValue} currentDate={currentDate} handleShare={handleShare} />
       <div className='flex p-4 flex-col gap-2 items-start justify-between'>
 
         <Shiftmembersdetails currentShiftMemebers={currentShiftMemebers} getHandoverMember={getHandoverMember} shiftValue={shiftValue} inShift={inShift} onLeave={onLeave} onWeekOff={onWeekOff} setInShift={setInShift} setOnLeave={setOnLeave} setOnWeekOff={setOnWeekOff} />
