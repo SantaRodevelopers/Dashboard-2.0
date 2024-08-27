@@ -8,6 +8,7 @@ import { PiBooksLight } from "react-icons/pi";
 import { IoMdNotificationsOutline } from "react-icons/io";
 import NavItem from './NavItem';
 import UserProfile from './UserProfile';
+import logo from '../assets/epsilon_logo_main_2.jpg'
 
 const Navbar = () => {
     const [navItems, setNavItems] = useState([]);
@@ -21,8 +22,8 @@ const Navbar = () => {
     ]
   return (
     <div className='bg-blue-600 w-full py-2 text-white h-full relative'>
-        <div className="logo ml-2 mb-6">
-          Logo
+        <div className=" ml-10 mr-10 mb-6 w-1/2 ">
+        <img src={logo}  alt="logo" />
         </div>
         <div className=' font-poppins text-[15px] flex flex-col gap-2'>
            {adminItems.map((item)=>{

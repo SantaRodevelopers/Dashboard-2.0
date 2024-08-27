@@ -50,7 +50,7 @@ const ShiftHandover = () => {
   let tools = localStorage.getItem('TD')
   let slNo = 1;
   let slNos = 1;
-  let slNoss = 1;
+  let slno = 1;
 
   let values = localStorage.getItem('MTD')
   useEffect(() => {
@@ -62,84 +62,56 @@ const ShiftHandover = () => {
   }, [])
 
 
+
   const generateEmailBody = () => {
 
-    let emailBody = `<div style="display: flex;align-items: center;"> <table border="1" style="border-collapse: collapse; margin-bottom:10px; "><tr><td style="background-color: #2D3250; color:white; font-weight:bold;padding:10px;text-align:center;">Work Allotment</td><td style="padding:10px;text-align:center;">Vedhitha/Roshan</td></tr><tr><td style="background-color: #2D3250; color:white;font-weight:bold;padding:10px;text-align:center;">Shift Handover</td><td style="padding:10px;text-align:center;">${shiftPeople.Handover}</td></tr></table>`
-    //  emailBody += `<div style="display: flex;align-items: center;"> <table border="1" style="border-collapse: collapse; margin-bottom:10px; "><tr>`;
-    //  additionalNotes.map((ele)=>{
-    //   emailBody+=` <tr><td>${ele}</td></tr></table>`
-    //  })
+    let emailBody =`<br>Hi Team,<br><br>Please find the shift handover from ${shiftValue}<br><br><br>`
 
-  
-    
-    // emailBody += `<table border="1" style="border-collapse: collapse; margin-bottom:10px; "><tr><td style="background-color: #2D3250; color:white; font-weight:bold;padding:10px;text-align:center;">Associates in Shift</td><td style="padding:10px;text-align:center;">${inShift}</td></tr><tr><td style="background-color: #2D3250; color:white;font-weight:bold;padding:10px;text-align:center;">Associates on Leave</td><td style="padding:10px;text-align:center;">${onLeave}</td></tr> </tr><tr><td style="background-color: #2D3250; color:white;font-weight:bold;padding:10px;text-align:center;">Week off</td><td style="padding:10px;text-align:center;">${onWeekOff}</td></tr></table> </div>`
-
-    
+     emailBody+= `<div style="display: flex;align-items: center;"> <table border="1" style="border-collapse: collapse; margin-bottom:10px; "><tr><td style="background-color: #2D3250; color:white; font-weight:bold;padding:10px;text-align:center;">Work Allotment</td><td style="padding:10px;text-align:center;">Vedhitha/Roshan</td></tr><tr><td style="background-color: #2D3250; color:white;font-weight:bold;padding:10px;text-align:center;">Shift Handover</td><td style="padding:10px;text-align:center;">${shiftPeople.Handover}</td></tr></table>`
 
     emailBody += `<table border="1" style="border-collapse: collapse; margin-bottom:10px; "><tr><td style="background-color: #2D3250; color:white; font-weight:bold;padding:10px;text-align:center;">Associates in Shift</td><td style="padding:10px;text-align:center;">${shiftPeople.inShift}</td></tr><tr><td style="background-color: #2D3250; color:white;font-weight:bold;padding:10px;text-align:center;">Associates on Leave</td><td style="padding:10px;text-align:center;">${shiftPeople.onLeave}</td></tr> </tr><tr><td style="background-color: #2D3250; color:white;font-weight:bold;padding:10px;text-align:center;">Week off</td><td style="padding:10px;text-align:center;">${shiftPeople.onWeekOff}</td></tr></table> </div>`
 
-
-    emailBody+=`<br></br><span style="font-size:1vw">${additionalNotes}</span>`
+    emailBody += `<br></br><span style="font-size:1vw">${additionalNotes}<br></span>`
 
     emailBody += '<table border="1" style="border-collapse: collapse;"><tr><th colspan="5" style="color: white; padding:10px ;background-color: #2D3250;">Current Shift Updates</th></tr><tr><th style="color: white; padding:10px ;background-color: #424769;">SL No</th><th style="color: white; padding:10px ;background-color: #424769;">Client Name</th><th style="color: white; padding:10px ;background-color: #424769;">Worked by</th><th style="color: white; padding:10px ;background-color: #424769;">Ticket # associated (JIRA/SN)</th><th style="color: white; padding:10px ;background-color: #424769;">Comments</th></tr>';
     temp.forEach(user => {
       if (user.type == 'Current Shift Updates') {
-        emailBody += `<tr><td style="padding:5px;text-align:center; width:10%;">${slNo}</td><td style="padding:5px;text-align:center; width:80%;">${user.displayClient}</td><td style="padding:5px;text-align:center;width:80%;">${user.assigneeName}</td><td style="padding:5px;text-align:center;width:80%;">${user.jiraTickets==''?'':user.jiraTickets}</td><td style="padding:5px;text-align:center;width:80%;">${user.comments==''?'': user.comments}<td></tr>`;
+        emailBody += `<tr><td style="padding:5px;text-align:center; width:10%;">${slNo}</td><td style="padding:5px;text-align:center; width:80%;">${user.displayClient}</td><td style="padding:5px;text-align:center;width:80%;">${user.assigneeName}</td><td style="padding:5px;text-align:center;width:80%;">${user.jiraTickets == '' ? '' : user.jiraTickets}</td><td style="padding:5px;text-align:center;width:80%;">${user.comments == '' ? '' : user.comments}</td></tr>`;
         slNo = slNo + 1
       }
     });
     emailBody += '</table>'
-
+    console.log(emailBody);
     emailBody += '<br></br><br></br>'
-
 
     emailBody += '<table border="1" style="border-collapse: collapse;"><tr><th colspan="5" style="color: white; padding:10px ;background-color: #2D3250;">Follow-Up</th></tr><tr><th style="color: white; padding:10px ;background-color: #424769;">SL No</th><th style="color: white; padding:10px ;background-color: #424769;">Client Name</th><th style="color: white; padding:10px ;background-color: #424769;">Worked by</th><th style="color: white; padding:10px ;background-color: #424769;">Ticket No</th><th style="color: white; padding:10px ;background-color: #424769;">Comments</th></tr>';
     temp.forEach(user => {
       if (user.type == 'Follow Up') {
-        emailBody += `<tr><td style="padding:5px;text-align:center; width:10%;">${slNos}</td><td style="padding:5px;text-align:center; width:80%;">${user.displayClient}</td><td style="padding:5px;text-align:center;width:80%;">${user.assigneeName}</td><td style="padding:5px;text-align:center;width:80%;">${user.jiraTickets==''?'':user.jiraTickets}</td><td style="padding:5px;text-align:center;width:80%;">${user.comments==''?'': user.comments}</td></tr>`;
+        emailBody += `<tr><td style="padding:5px;text-align:center; width:10%;">${slNos}</td><td style="padding:5px;text-align:center; width:80%;">${user.displayClient}</td><td style="padding:5px;text-align:center;width:80%;">${user.assigneeName}</td><td style="padding:5px;text-align:center;width:80%;">${user.jiraTickets == '' ? '' : user.jiraTickets}</td><td style="padding:5px;text-align:center;width:80%;">${user.comments == '' ? '' : user.comments}</td></tr>`;
         slNos = slNos + 1
       }
     });
     emailBody += '</table>'
 
-
     emailBody += '<br></br><br></br>'
-
 
     emailBody += '<table border="1" style="border-collapse: collapse;"><tr><th colspan="6" style="color: white; padding:10px ;background-color: #2D3250;">SSL Updates</th></tr><tr><th style="color: white; padding:10px ;background-color: #424769;">SL No</th><th style="color: white; padding:10px ;background-color: #424769;">Client Name</th><th style="color: white; padding:10px ;background-color: #424769;">Worked by</th><th style="color: white; padding:10px ;background-color: #424769;">Associated Ticket No</th><th style="color: white; padding:10px ;background-color: #424769;">Request Type</th><th style="color: white; padding:10px ;background-color: #424769;">Comments</th></tr>';
     tempSSL.forEach(user => {
 
-      emailBody += `<tr><td style="padding:5px;text-align:center; width:10%;">${slNos}</td><td style="padding:5px;text-align:center; width:80%;">${user.displayClient}</td><td style="padding:5px;text-align:center;width:80%;">${user.assigneeName}</td><td style="padding:5px;text-align:center;width:80%;">${user.jiraTickets==''?'':user.jiraTickets}</td><td style="padding:5px;text-align:center;width:80%;">${user.SSLType}</td><td style="padding:5px;text-align:center;width:80%;">${user.comments==''?'': user.comments}</td></tr>`;
-      slNoss = slNoss + 1
-
-
-
+      emailBody += `<tr><td style="padding:5px;text-align:center; width:10%;">${slno}</td><td style="padding:5px;text-align:center; width:80%;">${user.displayClient}</td><td style="padding:5px;text-align:center;width:80%;">${user.assigneeName}</td><td style="padding:5px;text-align:center;width:80%;">${user.jiraTickets == '' ? '' : user.jiraTickets}</td><td style="padding:5px;text-align:center;width:80%;">${user.SSLType}</td><td style="padding:5px;text-align:center;width:80%;">${user.comments == '' ? '' : user.comments}</td></tr>`;
+      slno = slno + 1
     });
     emailBody += '</table>'
-    // emailBody += '<tr><th colspan="3" style="color: white; padding:10px ;background-color: #2D3250;">Follow-Up</th></tr><tr><th style="color: white; padding:10px ;background-color: #424769;">SL NO</th><th style="color: white; padding:10px ;background-color: #424769;">Monitoring Tools</th><th style="color: white; padding:10px ;background-color: #424769;">Alotted To</th></tr>';
-    // temp.map(val => {
-    //   let slNo;
-    //     emailBody += `<tr><td style="padding:5px;text-align:center; width:10%;">${slNo}</td><td style="padding:5px;text-align:center; width:80%;">${val.displayClient}</td><td style="padding:5px;text-align:center;width:80%;">${val.assigneeName}</td><td style="padding:5px;text-align:center; width:80%;">${val.displayClient}</td><td style="padding:5px;text-align:center;width:80%;">${val.jiraTickets}</td><td style="padding:5px;text-align:center;width:80%;">${val.comments}</td></tr>`;
-    //     slNo = slNo + 1
-    // });
-
-    // emailBody += '<tr><th colspan="3" style="color: white; padding:10px ;background-color: #2D3250;">Monitoring</th></tr><tr><th style="color: white; padding:10px ;background-color: #424769;">SL NO</th><th style="color: white; padding:10px ;background-color: #424769;">Clients</th><th style="color: white; padding:10px ;background-color: #424769;">Alotted To</th></tr>';
-    // tempArr.forEach(user => {
-    //   user.clients.forEach((client) => {
-    //     emailBody += `<tr><td style="padding:5px;text-align:center; width:10%;">${slNo}</td><td style="padding:5px;text-align:center; width:80%;">${client}</td><td style="padding:5px;text-align:center;width:80%;">${user.name}</td></tr>`;
-    //     slNo = slNo + 1
-    //   });
-
-    // });
-    // emailBody += '</table>';
+    emailBody += `<br><p>Thank You!<br>COPS Team`
 
 
     return emailBody;
+    
   };
 
-  useEffect(()=>{
-JSON.parse(localStorage.getItem('prevShiftHO'))!=JSON.parse(localStorage.getItem('prevShiftWA')) && handleShare()
-  },[])
+  useEffect(() => {
+    JSON.parse(localStorage.getItem('prevShiftHO')) != JSON.parse(localStorage.getItem('prevShiftWA')) && handleShare()
+  }, [])
 
   // To get subject and body for mail
   const handleSendEmail = (count) => {
@@ -197,7 +169,7 @@ JSON.parse(localStorage.getItem('prevShiftHO'))!=JSON.parse(localStorage.getItem
     handleSendEmail(count);
     setCount(prev => prev + 1);
 
-    localStorage.setItem("prevShiftHO",JSON.stringify(shiftValue))
+    localStorage.setItem("prevShiftHO", JSON.stringify(shiftValue))
     // setTimeout(()=>{
     //   handleSendEmail(count);
     //   setCount(prev=>prev+1);
@@ -224,7 +196,7 @@ JSON.parse(localStorage.getItem('prevShiftHO'))!=JSON.parse(localStorage.getItem
   }, [temp])
 
   useEffect(() => {
-    if (tempSSL.length>0) {
+    if (tempSSL.length > 0) {
       localStorage.setItem("SD", JSON.stringify(tempSSL))
     }
     seggregateSslType(tempSSL)
@@ -301,7 +273,6 @@ JSON.parse(localStorage.getItem('prevShiftHO'))!=JSON.parse(localStorage.getItem
 
   function handleNote() {
     setNoteFlag(!noteFlag)
-    console.log(additionalNotes);
   }
   //console.log(temp);
   function handleClientsRadioButton() {
@@ -317,7 +288,6 @@ JSON.parse(localStorage.getItem('prevShiftHO'))!=JSON.parse(localStorage.getItem
   }
   useEffect(() => {
     if (additionalNotes.length > 0) {
-      console.log(document.querySelector('.jodit-wysiwyg').innerHTML);
       // console.log(additionalNotes);
 
     }
@@ -357,7 +327,7 @@ JSON.parse(localStorage.getItem('prevShiftHO'))!=JSON.parse(localStorage.getItem
     setCurrentShiftUpdates([]);
   }
 
-  function clearSSLType(){
+  function clearSSLType() {
     setNewSsl([]);
     setRenewal([]);
     setDecom([]);
@@ -367,6 +337,7 @@ JSON.parse(localStorage.getItem('prevShiftHO'))!=JSON.parse(localStorage.getItem
   let sslHeadingArr = ['SSL Client Name', 'Assigned To', 'Request Type', 'Tickets', 'Comments'];
 
   // console.log(tempSSL);
+  console.log(temp);
   return (
     <>
       {/* <SelectHandoverMember currentShiftMemebers={currentShiftMemebers} getHandoverMember={getHandoverMember} /> */}
@@ -408,8 +379,7 @@ JSON.parse(localStorage.getItem('prevShiftHO'))!=JSON.parse(localStorage.getItem
                         <th colSpan={6} className='p-2 bg-blue-600 text-white rounded-s-lg rounded-r-lg ' >SSL</th>
                         <tr className='text-[15px]'>
 
-                          <th className='p-2 bg-blue-600 text-white rounded-s-lg w-[100px]'>Tools/Clients</th>
-                          <th className='p-2 bg-blue-600 text-white w-1/4'>SSL Client Name</th>
+                          <th className='p-2 bg-blue-600 text-white w-1/4'>Domain Name</th>
                           <th className='p-2 bg-blue-600 text-white w-[150px]'>Assigned To</th>
                           <th className='p-2 bg-blue-600 text-white w-[150px]'>Type of request (CERT Renewal/VIP/Removal)</th>
                           <th className='p-2 bg-blue-600 text-white w-[200px]'>Tickets</th>
@@ -464,7 +434,8 @@ JSON.parse(localStorage.getItem('prevShiftHO'))!=JSON.parse(localStorage.getItem
 
               })}
             </table>
-          </> : sslFlag ?
+          </> :
+          sslFlag ?
             tempSSL.length > 0 &&
             <>
               <table className='mt-6 w-full border-2 border-white border-separate'>

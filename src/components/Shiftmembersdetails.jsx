@@ -92,7 +92,7 @@ function Shiftmembersdetails({ currentShiftMemebers, shiftValue,setInShift,setOn
 
     return (
         <div className='flex gap-2 items-center  w-full h-fit '>
-            <div className='flex flex-col  gap-3 mt-4 min-w-[50%] bg-gradient-to-r from-blue-300  to-white text-blue-900 font-bold shadow-lg  shadow-gray-400 p-3 rounded-lg'>
+            <div className='flex flex-col  gap-3 mt-4 min-w-[30%] bg-gradient-to-r from-blue-300  to-white text-blue-900 font-bold shadow-lg  shadow-gray-400 p-3 rounded-lg'>
 
                 <div className='flex gap-2'>
                 <p className='w-[175px]'>Associate in Shift</p>

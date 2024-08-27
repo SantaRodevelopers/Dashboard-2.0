@@ -1,4 +1,4 @@
-import React, { useEffect,useContext } from 'react'
+import React, { useEffect, useContext } from 'react'
 import { useState } from 'react'
 import AllotmentRows from '../components/AllotmentRows'
 import SelectHandoverMember from '../components/SelectHandoverMember'
@@ -22,10 +22,10 @@ const WorkAllotment = () => {
   const [inShift, setInShift] = useState([])
   const [onLeave, setOnLeave] = useState([])
   const [onWeekOff, setOnWeekOff] = useState([])
-  
-  const [shiftPeople,setShiftPeople] = useState({inShift:'',onWeekOff:'',onLeave:''})
 
-  let type='Work Allotment'
+  const [shiftPeople, setShiftPeople] = useState({ inShift: '', onWeekOff: '', onLeave: '' })
+
+  let type = 'Work Allotment'
   let space = " - "
   let tempArr = [];
   let toolsArr = []
@@ -33,14 +33,15 @@ const WorkAllotment = () => {
 
 
 
-  const [,workAllomentMonitoringData, setWorkAllomentMonitoringData,workAllotmentToolsData, setWorkAllotmentToolsData] = useContext(shiftMembersContext);
+  const [, workAllomentMonitoringData, setWorkAllomentMonitoringData, workAllotmentToolsData, setWorkAllotmentToolsData] = useContext(shiftMembersContext);
 
-  
+
 
 
   // To generate the email body for mail
   const generateEmailBody = () => {
-    let emailBody = `<div style="display: flex;align-items: center;"> <table border="1" style="border-collapse: collapse; margin-bottom:10px; "><tr><td style="background-color: #2D3250; color:white; font-weight:bold;padding:10px;text-align:center;">Work Allotment</td><td style="padding:10px;text-align:center;">Vedhitha/Roshan</td></tr><tr><td style="background-color: #2D3250; color:white;font-weight:bold;padding:10px;text-align:center;">Shift Handover</td><td style="padding:10px;text-align:center;">${HandoverMember}</td></tr></table>`
+    let emailBody = `<br>Hi Team,<br><br><br>Please find the Work Allotment For ${shiftValue}<br><br><br>`
+    emailBody += `<div style="display: flex;align-items: center;"> <table border="1" style="border-collapse: collapse; margin-bottom:10px; "><tr><td style="background-color: #2D3250; color:white; font-weight:bold;padding:10px;text-align:center;">Work Allotment</td><td style="padding:10px;text-align:center;">Vedhitha/Roshan</td></tr><tr><td style="background-color: #2D3250; color:white;font-weight:bold;padding:10px;text-align:center;">Shift Handover</td><td style="padding:10px;text-align:center;">${HandoverMember}</td></tr></table>`
 
     emailBody += `<table border="1" style="border-collapse: collapse; margin-bottom:10px; "><tr><td style="background-color: #2D3250; color:white; font-weight:bold;padding:10px;text-align:center;">Associates in Shift</td><td style="padding:10px;text-align:center;">${inShift}</td></tr><tr><td style="background-color: #2D3250; color:white;font-weight:bold;padding:10px;text-align:center;">Associates on Leave</td><td style="padding:10px;text-align:center;">${onLeave}</td></tr> </tr><tr><td style="background-color: #2D3250; color:white;font-weight:bold;padding:10px;text-align:center;">Week off</td><td style="padding:10px;text-align:center;">${onWeekOff}</td></tr></table> </div>`
 
@@ -57,12 +58,21 @@ const WorkAllotment = () => {
     emailBody += '<tr><th colspan="3" style="color: white; padding:10px ;background-color: #2D3250;">Monitoring</th></tr><tr><th style="color: white; padding:10px ;background-color: #424769;">SL NO</th><th style="color: white; padding:10px ;background-color: #424769;">Clients</th><th style="color: white; padding:10px ;background-color: #424769;">Alotted To</th></tr>';
     tempArr.forEach(user => {
       user.clients.forEach((client) => {
-        emailBody += `<tr><td style="padding:5px;text-align:center; width:10%;">${slNo}</td><td style="padding:5px;text-align:center; width:80%;">${client}</td><td style="padding:5px;text-align:center;width:80%;">${user.name}</td></tr>`;
-        slNo = slNo + 1
+        if (client=='Shoes For Crews') {
+          emailBody += '<tr><th colspan="3" style="color: white; padding:10px ;background-color: #2D3250;">EPCC 2.0Monitoring</th></tr><tr><th style="color: white; padding:10px ;background-color: #424769;">SL NO</th><th style="color: white; padding:10px ;background-color: #424769;">Clients</th><th style="color: white; padding:10px ;background-color: #424769;">Alotted To</th></tr>';
+          emailBody += `<tr><td style="padding:5px;text-align:center; width:10%;">${slNo}</td><td style="padding:5px;text-align:center; width:80%;">${client}</td><td style="padding:5px;text-align:center;width:80%;">${user.name}</td></tr>`;
+          slNo = slNo + 1
+        }
+        else{
+          emailBody += `<tr><td style="padding:5px;text-align:center; width:10%;">${slNo}</td><td style="padding:5px;text-align:center; width:80%;">${client}</td><td style="padding:5px;text-align:center;width:80%;">${user.name}</td></tr>`;
+          slNo = slNo + 1
+        }
+
       });
 
     });
     emailBody += '</table>';
+    emailBody += `<br><p>Thank You!<br>COPS Team`
     return emailBody;
   };
 
@@ -226,24 +236,24 @@ const WorkAllotment = () => {
     handleSendEmail(count);
     setCount(prev => prev + 1);
 
-    localStorage.setItem("prevShiftWA",JSON.stringify(shiftValue))
+    localStorage.setItem("prevShiftWA", JSON.stringify(shiftValue))
 
     if (tempArr.length && toolsArr.length) {
-      localStorage.setItem("MTD",JSON.stringify(tempArr))
-      localStorage.setItem("TD",JSON.stringify(toolsArr))
+      localStorage.setItem("MTD", JSON.stringify(tempArr))
+      localStorage.setItem("TD", JSON.stringify(toolsArr))
       localStorage.setItem("MD", JSON.stringify([]))
       localStorage.setItem("SD", JSON.stringify([]))
-      localStorage.setItem("Shift People",JSON.stringify({"inShift":inShift,"onLeave":onLeave,"onWeekOff":onWeekOff,"Handover":HandoverMember}))
+      localStorage.setItem("Shift People", JSON.stringify({ "inShift": inShift, "onLeave": onLeave, "onWeekOff": onWeekOff, "Handover": HandoverMember }))
     }
   }
 
-  useEffect(()=>{
-    if(JSON.parse(localStorage.getItem('MD')).length==null || JSON.parse(localStorage.getItem('SD')).length==null ){
+  useEffect(() => {
+    if (JSON.parse(localStorage.getItem('MD')).length == null || JSON.parse(localStorage.getItem('SD')).length == null) {
       localStorage.setItem("MD", JSON.stringify([]))
       localStorage.setItem("SD", JSON.stringify([]))
     }
-  },[])
-  
+  }, [])
+
   // To get the data of the handover member
   function getHandoverMember(member) {
     setHandoverMember(member)
@@ -261,12 +271,12 @@ const WorkAllotment = () => {
   }
 
 
-//console.log('----Monitoring Data ----\n',tempArr,'-----Tools Data------\n',toolsArr);
+  //console.log('----Monitoring Data ----\n',tempArr,'-----Tools Data------\n',toolsArr);
   window.addEventListener('scroll', changeBgClrOnScroll)
 
   return (
     <div className=' font-poppins w-full '>
-    <Header  sendType={'WA'} scrollFlag={scrollFlag} handleShiftChange={handleShiftChange} type={type} shiftValue={shiftValue} currentDate={currentDate} handleShare={handleShare} />
+      <Header sendType={'WA'} scrollFlag={scrollFlag} handleShiftChange={handleShiftChange} type={type} shiftValue={shiftValue} currentDate={currentDate} handleShare={handleShare} />
       <div className='flex p-4 flex-col gap-2 items-start justify-between'>
 
         <Shiftmembersdetails currentShiftMemebers={currentShiftMemebers} getHandoverMember={getHandoverMember} shiftValue={shiftValue} inShift={inShift} onLeave={onLeave} onWeekOff={onWeekOff} setInShift={setInShift} setOnLeave={setOnLeave} setOnWeekOff={setOnWeekOff} />
@@ -298,7 +308,7 @@ const WorkAllotment = () => {
 
         </table>
       </div>
-      
+
     </div>
   )
 }
