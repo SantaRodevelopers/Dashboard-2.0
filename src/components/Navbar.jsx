@@ -22,9 +22,12 @@ const Navbar = () => {
     ]
   return (
     <div className='bg-blue-600 w-full py-2 text-white h-full relative'>
-        <div className=" ml-10 mr-10 mb-6 w-1/2 ">
-        <img src={logo}  alt="logo" />
+   
+      <div className=" ml-10 mr-10 mb-6  ">
+         <img src={logo}  className='mix-blend-color-burn ' alt="logo" />
         </div>
+ 
+
         <div className=' font-poppins text-[15px] flex flex-col gap-2'>
            {adminItems.map((item)=>{
                 return <NavItem image = {item.image} navItem = {item.item} key={item.id} navPath = {item.navLink}/>

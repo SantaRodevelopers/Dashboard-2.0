@@ -81,7 +81,7 @@ const ShiftHandover = () => {
       }
     });
     emailBody += '</table>'
-    console.log(emailBody);
+    
     emailBody += '<br></br><br></br>'
 
     emailBody += '<table border="1" style="border-collapse: collapse;"><tr><th colspan="5" style="color: white; padding:10px ;background-color: #2D3250;">Follow-Up</th></tr><tr><th style="color: white; padding:10px ;background-color: #424769;">SL No</th><th style="color: white; padding:10px ;background-color: #424769;">Client Name</th><th style="color: white; padding:10px ;background-color: #424769;">Worked by</th><th style="color: white; padding:10px ;background-color: #424769;">Ticket No</th><th style="color: white; padding:10px ;background-color: #424769;">Comments</th></tr>';
@@ -95,10 +95,10 @@ const ShiftHandover = () => {
 
     emailBody += '<br></br><br></br>'
 
-    emailBody += '<table border="1" style="border-collapse: collapse;"><tr><th colspan="6" style="color: white; padding:10px ;background-color: #2D3250;">SSL Updates</th></tr><tr><th style="color: white; padding:10px ;background-color: #424769;">SL No</th><th style="color: white; padding:10px ;background-color: #424769;">Client Name</th><th style="color: white; padding:10px ;background-color: #424769;">Worked by</th><th style="color: white; padding:10px ;background-color: #424769;">Associated Ticket No</th><th style="color: white; padding:10px ;background-color: #424769;">Request Type</th><th style="color: white; padding:10px ;background-color: #424769;">Comments</th></tr>';
+    emailBody += '<table border="1" style="border-collapse: collapse;"><tr><th colspan="6" style="color: white; padding:10px ;background-color: #2D3250;">SSL Updates</th></tr><tr><th style="color: white; padding:10px ;background-color: #424769;">SL No</th><th style="color: white; padding:10px; width:fit-content;background-color: #424769;">Domain Name</th><th style="color: white; padding:10px ;background-color: #424769;">Worked by</th><th style="color: white; padding:10px ;background-color: #424769;">Associated Ticket No</th><th style="color: white; padding:10px ;background-color: #424769;">Request Type</th><th style="color: white; padding:10px ;background-color: #424769;">Comments</th></tr>';
     tempSSL.forEach(user => {
 
-      emailBody += `<tr><td style="padding:5px;text-align:center; width:10%;">${slno}</td><td style="padding:5px;text-align:center; width:80%;">${user.displayClient}</td><td style="padding:5px;text-align:center;width:80%;">${user.assigneeName}</td><td style="padding:5px;text-align:center;width:80%;">${user.jiraTickets == '' ? '' : user.jiraTickets}</td><td style="padding:5px;text-align:center;width:80%;">${user.SSLType}</td><td style="padding:5px;text-align:center;width:80%;">${user.comments == '' ? '' : user.comments}</td></tr>`;
+      emailBody += `<tr><td style="padding:5px;text-align:center; width:10%;">${slno}</td><td style="padding:5px;text-align:center;">${user.displayClient}</td><td style="padding:5px;text-align:center;width:80%;">${user.assigneeName}</td><td style="padding:5px;text-align:center;width:80%;">${user.jiraTickets == '' ? '' : user.jiraTickets}</td><td style="padding:5px;text-align:center;width:80%;">${user.SSLType}</td><td style="padding:5px;text-align:center;width:80%;">${user.comments == '' ? '' : user.comments}</td></tr>`;
       slno = slno + 1
     });
     emailBody += '</table>'
@@ -115,6 +115,8 @@ const ShiftHandover = () => {
 
   // To get subject and body for mail
   const handleSendEmail = (count) => {
+
+   
     //setWorkAllotmentToolsData(toolsArr)
     const subject = `COPS-Shift Handover ${shiftValue === 'Select Shift' ? null : shiftValue} ${currentDate}`;
     const body = generateEmailBody();
@@ -136,12 +138,14 @@ const ShiftHandover = () => {
       })
         .then(response => response.text())
         .then(result => toast.success('Email Sent..', {
-          description: `Mail sent at ${maindate}`
+          description: `Mail sent at ${maindate}`,
+          duration: 700,
         }))
         .catch(error => console.error('Error:', error));
       setCount(0)
       //setEmailFlag(prev=>!prev)
-    }
+
+  }
 
   };
 
@@ -203,7 +207,7 @@ const ShiftHandover = () => {
   }, [tempSSL])
 
 
-  // console.log(workAllotmentToolsData)
+ 
 
   window.addEventListener('scroll', changeBgClrOnScroll)
 
@@ -211,7 +215,8 @@ const ShiftHandover = () => {
     let filteredVal = temp.filter((ele) => {
       if (e.currentTarget.id == ele.id) {
         toast.error('Deleted ...', {
-          description: `You have deleted ${ele.displayClient}`
+          description: `You have deleted ${ele.displayClient}`,
+          duration: 700,
         })
       }
       return e.currentTarget.id != ele.id;
@@ -259,12 +264,12 @@ const ShiftHandover = () => {
 
   function handleHide() {
     if (hideFlag == false) {
-      toast.info('Alerts/Clients Bar Hidden', {
+      toast.info('Clients/SSL Bar Hidden', {
         duration: 700,
       });
     }
     else {
-      toast.info('Displaying Alerts/Clients Bar', {
+      toast.info('Displaying Clients/SSL Bar', {
         duration: 700,
       });
     }
@@ -274,7 +279,7 @@ const ShiftHandover = () => {
   function handleNote() {
     setNoteFlag(!noteFlag)
   }
-  //console.log(temp);
+
   function handleClientsRadioButton() {
     setSslFlag(false)
     setClientsOrToolsFlag(true)
@@ -286,12 +291,7 @@ const ShiftHandover = () => {
     setSslFlag(true)
     setRenderFlag(true)
   }
-  useEffect(() => {
-    if (additionalNotes.length > 0) {
-      // console.log(additionalNotes);
 
-    }
-  }, [additionalNotes])
 
   function seggregateType(temp) {
     let followUpType = temp.filter((ele) => ele.type === 'Follow Up');
@@ -336,8 +336,7 @@ const ShiftHandover = () => {
   let clientHeadingArr = ['Alert and Ticketing Tools', 'Assigned To', 'Type', 'Jira Tickets', 'Comments'];
   let sslHeadingArr = ['SSL Client Name', 'Assigned To', 'Request Type', 'Tickets', 'Comments'];
 
-  // console.log(tempSSL);
-  console.log(temp);
+
   return (
     <>
       {/* <SelectHandoverMember currentShiftMemebers={currentShiftMemebers} getHandoverMember={getHandoverMember} /> */}
@@ -350,7 +349,7 @@ const ShiftHandover = () => {
             <>
               <Header sendType={'HO'} scrollFlag={scrollFlag} handleShiftChange={handleShiftChange} type={type} shiftValue={shiftValue} currentDate={currentDate} handleShare={handleShare} />
               <span className='flex  p-1.5 mt-8'>
-                <i class={`${hideFlag ? 'fa fa-caret-square-o-right fa-lg ' : 'fa fa-caret-square-o-right fa-lg fa-rotate-90 '}`} onClick={handleHide} ></i>
+                <i class={`${hideFlag ? 'fa fa-caret-square-o-right fa-lg ' : 'fa fa-caret-square-o-right fa-lg fa-rotate-90 '} hover:`} onClick={handleHide} ></i>
               </span>
 
               <span className='flex gap-4 px-7 py-1 p-1.5 text-md font-poppins'>

@@ -8,12 +8,15 @@ function PreviewHandover({ ele, setEdit, mainData, edit, setMainData, temp, hand
   const [editvalue, setEditValue] = useState([])
   const [editFlag, seteditFlag] = useState(false)
   const [saveFlag, setSaveFlag] = useState(false)
- 
 
 
+  const [editedDomainName, setEditedDomainName] = useState()
+  const [editedAssigneName, setEditedAssigneName] = useState()
   const [editedJiraTickets, setEditedJiraTickets] = useState()
   const [editedComments, setEditedComments] = useState()
 
+  const [isDomainNameEdited, setIsDomainNameEdited] = useState(false);
+  const [isAssigneNameEdited, setIsAssigneNameEdited] = useState(false);
   const [isJiraEdited, setJiraEdited] = useState(false);
   const [isCommentsEdited, setCommentsEdited] = useState(false);
 
@@ -37,16 +40,17 @@ function PreviewHandover({ ele, setEdit, mainData, edit, setMainData, temp, hand
 
   function handleSave() {
 
-    // console.log(editedJiraTickets);
+
     id = ele.id
-    displayClient = ele.displayClient
-    assigneeName = ele.assigneeName
+    displayClient = isDomainNameEdited ? editedDomainName : ele.displayClient
+    assigneeName = isAssigneNameEdited ? editedAssigneName : ele.assigneeName
 
     jiraTickets = isJiraEdited ? editedJiraTickets : ele.jiraTickets;
     comments = isCommentsEdited ? editedComments : ele.comments;
 
     let tempedit = { id, displayClient, assigneeName, jiraTickets, comments }
     setEditValue(tempedit)
+
 
     let val = temp.map((ele) => {
       if (ele.id == tempedit.id) {
@@ -73,29 +77,41 @@ function PreviewHandover({ ele, setEdit, mainData, edit, setMainData, temp, hand
   const [cssClass, setCssClass] = useState('');
 
   useEffect(() => {
-      setCssClass(ele.type == 'Follow Up' || ele.SSLType == 'Decommission' ? 'border-2 border-gray-300' : 'border-2 border-gray-300')
-    }, [])
+    setCssClass(ele.type == 'Follow Up' || ele.SSLType == 'Decommission' ? 'border-2 border-gray-300' : 'border-2 border-gray-300')
+  }, [])
+
 
   return (
     <>
-       <tr className='text-center font-poppins'>
-                <td className={cssClass}>{ele.displayClient}</td>
-                <td className={cssClass}>{ele.assigneeName}</td>
-                {RenderFlag ? <td className={cssClass}>{ele.SSLType}</td>:<td className={cssClass}>{ele.type}</td>}
-                <td className={cssClass}>{editFlag ? <textarea id={ele.id} className='outline-none w-full text-center ' onChange={(event) => { setEditedJiraTickets(event.target.value); setJiraEdited(true) }}>{saveFlag && ele.jiraTickets}</textarea> : saveFlag ? editedJiraTickets : ele.jiraTickets}</td>
-                <td className={cssClass}>{editFlag ? <textarea id={ele.id} className='outline-none w-full text-center ' onChange={(event) => { setEditedComments(event.target.value); setCommentsEdited(true) }}>{saveFlag && ele.comments}</textarea> : saveFlag ? editedComments : ele.comments}</td>
-                <div className='flex gap-2 my-2'>
-                    <div onClick={handleEdit} className={`w-9 h-9 flex items-center justify-center rounded-full ${editFlag ? 'invisible' : 'bg-blue-500 text-white visible'}`}>
-                        <i className="fa-regular fa-pen-to-square"></i>
-                    </div>
-                    <div onClick={handleDelete} className='bg-red-500 text-white w-9 h-9 flex items-center justify-center rounded-full' id={ele.id}>
-                        <i className="fa-regular fa-trash-can w-1/3"></i>
-                    </div>
-                    <div onClick={handleSave} className={`w-9 h-9 flex items-center justify-center rounded-full ${saveFlag ? 'bg-green-600 text-white visible' : 'invisible'}`}>
-                        <i className="fa-regular fa-floppy-disk w-1/3"></i>
-                    </div>
-                </div>
-            </tr>
+      <tr className='text-center font-poppins'>
+        {/* <td className={cssClass}>{ele.displayClient}</td>
+                <td className={cssClass}>{ele.assigneeName}</td> */}
+{ RenderFlag ? <><td className={cssClass}>{editFlag ? <textarea id={ele.id} className='outline-none w-full text-center ' onChange={(event) => { setEditedDomainName(event.target.value); setIsDomainNameEdited(true) } }>{saveFlag && ele.displayClient}</textarea> : saveFlag ? editedDomainName : ele.displayClient}
+</td><td className={cssClass}>{editFlag ? <textarea id={ele.id} className='outline-none w-full text-center ' onChange={(event) => { setEditedAssigneName(event.target.value); setIsAssigneNameEdited  (true) } }>{saveFlag && ele.assigneeName}</textarea> : saveFlag ? editedAssigneName : ele.assigneeName}</td></>:<><td className={cssClass}>{ele.displayClient}</td><td className={cssClass}>{ele.assigneeName}</td></> }
+
+
+
+        {/* <td className={cssClass}>{editFlag ? <textarea id={ele.id} className='outline-none w-full text-center ' onChange={(event) => { setEditedDomainName(event.target.value); isDomainNameEdited(true) }}>{saveFlag && ele.displayClient}</textarea> : saveFlag ? editedDomainName : ele.displayClient}</td> <td className={cssClass}>{editFlag ? <textarea id={ele.id} className='outline-none w-full text-center ' onChange={(event) => { setEditedAssigneName(event.target.value); isAssigneNameEdited(true) }}>{saveFlag && ele.assigneeName}</textarea> : saveFlag ? editedAssigneName : ele.assigneeName}</td> */}
+
+        {RenderFlag ? <td className={cssClass}>{ele.SSLType}</td> : <td className={cssClass}>{ele.type}</td>}
+
+        <td className={cssClass}>{editFlag ? <textarea id={ele.id} className='outline-none w-full text-center ' onChange={(event) => { setEditedJiraTickets(event.target.value); setJiraEdited(true) }}>{saveFlag && ele.jiraTickets}</textarea> : saveFlag ? editedJiraTickets : ele.jiraTickets}</td>
+        <td className={cssClass}>{editFlag ? <textarea id={ele.id} className='outline-none w-full text-center ' onChange={(event) => { setEditedComments(event.target.value); setCommentsEdited(true) }}>{saveFlag && ele.comments}</textarea> : saveFlag ? editedComments : ele.comments}</td>
+        <div className='flex gap-2 my-2'>
+          <div onClick={handleEdit} className={`w-9 h-9 flex items-center justify-center rounded-full ${editFlag ? 'invisible' : 'bg-blue-500 text-white visible'}`}>
+            <i className="fa-regular fa-pen-to-square"></i>
+          </div>
+          <div onClick={handleDelete} className='bg-red-500 text-white w-9 h-9 flex items-center justify-center rounded-full' id={ele.id}>
+            <i className="fa-regular fa-trash-can w-1/3"></i>
+          </div>
+          <div onClick={handleSave} className={`w-9 h-9 flex items-center justify-center rounded-full ${saveFlag ? 'bg-green-600 text-white visible' : 'invisible'}`}>
+            <i className="fa-regular fa-floppy-disk w-1/3"></i>
+          </div>
+        </div>
+
+
+
+      </tr>
     </>
   )
 }

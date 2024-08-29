@@ -79,6 +79,7 @@ const WorkAllotment = () => {
 
   // To get subject and body for mail
   const handleSendEmail = (count) => {
+    
     setWorkAllomentMonitoringData(tempArr)
     setWorkAllotmentToolsData(toolsArr)
     const subject = `COPS-WorkAlloment ${shiftValue === 'Select Shift' ? null : shiftValue} ${space} ${currentDate}`;
@@ -166,7 +167,7 @@ const WorkAllotment = () => {
     const response = await fetch('src/utils/tools.json')
     const result = await response.json()
     setToolsTagsFunc(result)
-    // console.log(toolsTags);
+    
   }
 
   // To filter client list based on tags selected
@@ -208,27 +209,19 @@ const WorkAllotment = () => {
   // To store the client list for the assigned members
   function allotedClients(singleMember) {
     tempArr.push(...singleMember);
-    // setTimeout(() => {
-    //   console.log(tempArr);
-    // }, 1000)
+
   }
 
   // To store the tools list for the assigned members
   function allotedTools(singleMember) {
     toolsArr.push(...singleMember);
 
-    // setTimeout(() => {
-    //   console.log(toolsArr);
-    // }, 1000)
+
   }
 
 
 
-  // function handleAllData(){
-  //   setTimeout(()=>{
-  //    // console.log(users);
-  //   },500)
-  // }
+
 
   // To share the mail
   function handleShare() {
@@ -257,7 +250,7 @@ const WorkAllotment = () => {
   // To get the data of the handover member
   function getHandoverMember(member) {
     setHandoverMember(member)
-    // console.log(HandoverMember);
+
   }
 
 
@@ -271,7 +264,7 @@ const WorkAllotment = () => {
   }
 
 
-  //console.log('----Monitoring Data ----\n',tempArr,'-----Tools Data------\n',toolsArr);
+
   window.addEventListener('scroll', changeBgClrOnScroll)
 
   return (

@@ -24,7 +24,7 @@ function HandoverRows({ allotted, getClientsOrTools, setMainData, mainData, temp
 
         let selectedValue = allotted.filter((ele) => {
             return ele.clients.length != 0
-            //console.log(ele);
+          
 
         })
 
@@ -35,9 +35,7 @@ function HandoverRows({ allotted, getClientsOrTools, setMainData, mainData, temp
 
             }
         })
-        // console.log(assigneeName);
-        //selectedValue[0].clients.includes(value)?console.log(selectedValue[0].name):console.log('wrong');
-        // console.log(selectedValue[0].name);
+
     }
 
 
@@ -47,26 +45,52 @@ function HandoverRows({ allotted, getClientsOrTools, setMainData, mainData, temp
 
 
         if ((client.displayClient && client.assigneeName)) {
-            setTemp([...temp, client]);
-            toast.success('Added ...', {
-                description: `Added ${client.displayClient}`
-            })
+            if (RenderFlag? client.SSLType:client.type) {
+                setTemp([...temp, client]);
+                toast.success('Added ...', {
+                    description: `Added ${client.displayClient}`,
+                    duration:700,
+                })
+            }
+
+            else{
+                RenderFlag?
+                toast.error('Please select SSL Request Type',{
+                    duration:800,
+                }) :
+                toast.error('Please select Handover Type',{
+                    duration:800,
+                })
+            }
+
         } else {
-            toast.error('Please select the client and assignee name')
+            RenderFlag? 
+            toast.error('Please select the Domain and Assignee Name',{
+                duration:800
+                
+            }):
+            toast.error('Please select the Client and Assignee Name',{
+            duration:800
+            })
         }
 
         // toLocalStorage()
 
-        document.querySelectorAll('#changeToSelect').forEach((df) => {
+        (client.displayClient && RenderFlag ? client.SSLType:client.type) && document.querySelectorAll('#changeToSelect').forEach((df) => {
             df.value = "Select";
+        
+
+            
         })
         // document.querySelectorAll('.changeToSelect').value = 'Select';
+        if((client.displayClient && (RenderFlag && client.SSLType))||(client.displayClient && (!RenderFlag && client.type)) ){
+            setDisplayClient(''),
+            setAssigneeName('')
+            setJiraTickets('')
+            setComments('')
+            setClientsOrToolsFlag(false)
+        }
 
-        setDisplayClient('')
-        setAssigneeName('')
-        setJiraTickets('')
-        setComments('')
-        setClientsOrToolsFlag(false)
 
 
         //    toLocalStorage()
