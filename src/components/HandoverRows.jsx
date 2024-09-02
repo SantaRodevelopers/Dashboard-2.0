@@ -2,11 +2,13 @@ import { fas } from '@fortawesome/free-solid-svg-icons'
 import React, { useState } from 'react'
 import { toast } from 'sonner'
 
+
 function HandoverRows({ allotted, getClientsOrTools, setMainData, mainData, temp, setTemp, setClientsOrToolsFlag, RenderFlag, clearType }) {
     let client
     let clientSelected
     // let jiraTickets
     let id = new Date().getTime().toString()
+
 
 
     const [assigneeName, setAssigneeName] = useState('')
@@ -24,7 +26,7 @@ function HandoverRows({ allotted, getClientsOrTools, setMainData, mainData, temp
 
         let selectedValue = allotted.filter((ele) => {
             return ele.clients.length != 0
-          
+
 
         })
 
@@ -45,47 +47,47 @@ function HandoverRows({ allotted, getClientsOrTools, setMainData, mainData, temp
 
 
         if ((client.displayClient && client.assigneeName)) {
-            if (RenderFlag? client.SSLType:client.type) {
+            if (RenderFlag ? client.SSLType : client.type) {
                 setTemp([...temp, client]);
                 toast.success('Added ...', {
                     description: `Added ${client.displayClient}`,
-                    duration:700,
+                    duration: 700,
                 })
             }
 
-            else{
-                RenderFlag?
-                toast.error('Please select SSL Request Type',{
-                    duration:800,
-                }) :
-                toast.error('Please select Handover Type',{
-                    duration:800,
-                })
+            else {
+                RenderFlag ?
+                    toast.error('Please select SSL Request Type', {
+                        duration: 800,
+                    }) :
+                    toast.error('Please select Handover Type', {
+                        duration: 800,
+                    })
             }
 
         } else {
-            RenderFlag? 
-            toast.error('Please select the Domain and Assignee Name',{
-                duration:800
-                
-            }):
-            toast.error('Please select the Client and Assignee Name',{
-            duration:800
-            })
+            RenderFlag ?
+                toast.error('Please select the Domain and Assignee Name', {
+                    duration: 800
+
+                }) :
+                toast.error('Please select the Client and Assignee Name', {
+                    duration: 800
+                })
         }
 
         // toLocalStorage()
 
-        (client.displayClient && RenderFlag ? client.SSLType:client.type) && document.querySelectorAll('#changeToSelect').forEach((df) => {
+        (client.displayClient && RenderFlag ? client.SSLType : client.type) && document.querySelectorAll('#changeToSelect').forEach((df) => {
             df.value = "Select";
-        
 
-            
+
+
         })
         // document.querySelectorAll('.changeToSelect').value = 'Select';
-        if((client.displayClient && (RenderFlag && client.SSLType))||(client.displayClient && (!RenderFlag && client.type)) ){
+        if ((client.displayClient && (RenderFlag && client.SSLType)) || (client.displayClient && (!RenderFlag && client.type))) {
             setDisplayClient(''),
-            setAssigneeName('')
+                setAssigneeName('')
             setJiraTickets('')
             setComments('')
             setClientsOrToolsFlag(false)
@@ -122,20 +124,20 @@ function HandoverRows({ allotted, getClientsOrTools, setMainData, mainData, temp
 
 
                     {/* <td><textarea value={SSLType} onChange={(event) => { setSSLType(event.target.value) }} className='w-full px-2 py-1 text-sm h-20 border-2 border-gray-300' name="" id="" ></textarea></td> */}
-                
+
                     <select onChange={(event) => { setSSLType(event.target.value) }} id="changeToSelect" className="w-full px-2 py-1 text-sm h-9 border-2 border-gray-300">
-                            <option value="Select">Select</option>
-                            <option value="Renewal">Renewal</option>
-                            <option value="New">New</option>
-                            <option value="Decommission">Decommission </option>
-                        </select> 
-                    
+                        <option value="Select">Select</option>
+                        <option value="Renewal">Renewal</option>
+                        <option value="New">New</option>
+                        <option value="Decommission">Decommission </option>
+                    </select>
+
                     <td><textarea value={jiraTickets} onChange={(event) => { setJiraTickets(event.target.value) }} className='w-full px-2 py-1 text-sm h-20 border-2 border-gray-300' name="" id="" ></textarea></td>
                     <td><textarea value={comments} onChange={(event) => { setComments(event.target.value) }} className='w-full px-2 py-1 text-sm h-20 border-2 border-gray-300' name="" id="" ></textarea></td>
 
-                </tr> 
-                               
-                :
+                </tr>
+
+                    :
 
                     <tr className='border-3 border-gray-500'>
                         <td><select onChange={(event) => { getClientsOrTools(event.target.value) }} className='w-full' name="" id="">
@@ -167,8 +169,14 @@ function HandoverRows({ allotted, getClientsOrTools, setMainData, mainData, temp
                             <option value="Follow Up">Follow Up</option>
                         </select>
 
-                    <td><textarea value={jiraTickets} onChange={(event) => { setJiraTickets(event.target.value) }} className='w-full px-2 py-1 text-sm h-20 border-2 border-gray-300' name="" id="" ></textarea></td>
-                    <td><textarea value={comments} onChange={(event) => { setComments(event.target.value) }} className='w-full px-2 py-1 text-sm h-20 border-2 border-gray-300' name="" id="" ></textarea></td>
+
+                        <td>
+                            <textarea value={jiraTickets} onChange={(event) => { setJiraTickets(event.target.value) }} className='w-full px-2 py-1 text-sm h-20 border-2 border-gray-300' name="" id="" ></textarea> </td>
+                        <td>
+
+                            <textarea value={comments} onChange={(event) => { setComments(event.target.value) }} className='w-full px-2 py-1 text-sm h-20 border-2 border-gray-300' name="" id="" ></textarea>
+
+                        </td>
 
                     </tr>
             }
@@ -208,6 +216,6 @@ function HandoverRows({ allotted, getClientsOrTools, setMainData, mainData, temp
 
 
     )
-            }
+}
 
-    export default HandoverRows
+export default HandoverRows

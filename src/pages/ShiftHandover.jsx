@@ -65,7 +65,7 @@ const ShiftHandover = () => {
 
   const generateEmailBody = () => {
 
-    let emailBody =`<br>Hi Team,<br><br>Please find the shift handover from ${shiftValue}<br><br><br>`
+    let emailBody =`<br><p style="font-size:1.5rem;">Hi Team,<br><br>Please find the shift handover from ${shiftValue}</p><br><br><br>`
 
      emailBody+= `<div style="display: flex;align-items: center;"> <table border="1" style="border-collapse: collapse; margin-bottom:10px; "><tr><td style="background-color: #2D3250; color:white; font-weight:bold;padding:10px;text-align:center;">Work Allotment</td><td style="padding:10px;text-align:center;">Vedhitha/Roshan</td></tr><tr><td style="background-color: #2D3250; color:white;font-weight:bold;padding:10px;text-align:center;">Shift Handover</td><td style="padding:10px;text-align:center;">${shiftPeople.Handover}</td></tr></table>`
 
@@ -75,8 +75,10 @@ const ShiftHandover = () => {
 
     emailBody += '<table border="1" style="border-collapse: collapse;"><tr><th colspan="5" style="color: white; padding:10px ;background-color: #2D3250;">Current Shift Updates</th></tr><tr><th style="color: white; padding:10px ;background-color: #424769;">SL No</th><th style="color: white; padding:10px ;background-color: #424769;">Client Name</th><th style="color: white; padding:10px ;background-color: #424769;">Worked by</th><th style="color: white; padding:10px ;background-color: #424769;">Ticket # associated (JIRA/SN)</th><th style="color: white; padding:10px ;background-color: #424769;">Comments</th></tr>';
     temp.forEach(user => {
+      let convertedComments = user.comments.replace(/\n/g,'<br>')
+      console.log(convertedComments);
       if (user.type == 'Current Shift Updates') {
-        emailBody += `<tr><td style="padding:5px;text-align:center; width:10%;">${slNo}</td><td style="padding:5px;text-align:center; width:80%;">${user.displayClient}</td><td style="padding:5px;text-align:center;width:80%;">${user.assigneeName}</td><td style="padding:5px;text-align:center;width:80%;">${user.jiraTickets == '' ? '' : user.jiraTickets}</td><td style="padding:5px;text-align:center;width:80%;">${user.comments == '' ? '' : user.comments}</td></tr>`;
+        emailBody += `<tr><td style="padding:5px;text-align:center; width:10%;">${slNo}</td><td style="padding:5px;text-align:center; width:20%;">${user.displayClient}</td><td style="padding:5px;text-align:center;width:10%;">${user.assigneeName}</td><td style="padding:5px;text-align:center;width:10%;">${user.jiraTickets == '' ? '' : user.jiraTickets}</td><td style="padding:5px;text-align:center;width:90%;">${convertedComments == '' ? '' : convertedComments}</td></tr>`;
         slNo = slNo + 1
       }
     });
@@ -86,8 +88,10 @@ const ShiftHandover = () => {
 
     emailBody += '<table border="1" style="border-collapse: collapse;"><tr><th colspan="5" style="color: white; padding:10px ;background-color: #2D3250;">Follow-Up</th></tr><tr><th style="color: white; padding:10px ;background-color: #424769;">SL No</th><th style="color: white; padding:10px ;background-color: #424769;">Client Name</th><th style="color: white; padding:10px ;background-color: #424769;">Worked by</th><th style="color: white; padding:10px ;background-color: #424769;">Ticket No</th><th style="color: white; padding:10px ;background-color: #424769;">Comments</th></tr>';
     temp.forEach(user => {
+      let convertedComments = user.comments.replace(/\n/g,'<br>')
+      console.log(convertedComments);
       if (user.type == 'Follow Up') {
-        emailBody += `<tr><td style="padding:5px;text-align:center; width:10%;">${slNos}</td><td style="padding:5px;text-align:center; width:80%;">${user.displayClient}</td><td style="padding:5px;text-align:center;width:80%;">${user.assigneeName}</td><td style="padding:5px;text-align:center;width:80%;">${user.jiraTickets == '' ? '' : user.jiraTickets}</td><td style="padding:5px;text-align:center;width:80%;">${user.comments == '' ? '' : user.comments}</td></tr>`;
+        emailBody += `<tr><td style="padding:5px;text-align:center; width:10%;">${slNos}</td><td style="padding:5px;text-align:center; width:20%;">${user.displayClient}</td><td style="padding:5px;text-align:center;width:10%;">${user.assigneeName}</td><td style="padding:5px;text-align:center;width:10%;">${user.jiraTickets == '' ? '' : user.jiraTickets}</td><td style="padding:5px;text-align:center;width:90%;">${convertedComments == '' ? '' : convertedComments}</td></tr>`;
         slNos = slNos + 1
       }
     });
@@ -97,8 +101,9 @@ const ShiftHandover = () => {
 
     emailBody += '<table border="1" style="border-collapse: collapse;"><tr><th colspan="6" style="color: white; padding:10px ;background-color: #2D3250;">SSL Updates</th></tr><tr><th style="color: white; padding:10px ;background-color: #424769;">SL No</th><th style="color: white; padding:10px; width:fit-content;background-color: #424769;">Domain Name</th><th style="color: white; padding:10px ;background-color: #424769;">Worked by</th><th style="color: white; padding:10px ;background-color: #424769;">Associated Ticket No</th><th style="color: white; padding:10px ;background-color: #424769;">Request Type</th><th style="color: white; padding:10px ;background-color: #424769;">Comments</th></tr>';
     tempSSL.forEach(user => {
-
-      emailBody += `<tr><td style="padding:5px;text-align:center; width:10%;">${slno}</td><td style="padding:5px;text-align:center;">${user.displayClient}</td><td style="padding:5px;text-align:center;width:80%;">${user.assigneeName}</td><td style="padding:5px;text-align:center;width:80%;">${user.jiraTickets == '' ? '' : user.jiraTickets}</td><td style="padding:5px;text-align:center;width:80%;">${user.SSLType}</td><td style="padding:5px;text-align:center;width:80%;">${user.comments == '' ? '' : user.comments}</td></tr>`;
+      let convertedComments = user.comments.replace(/\n/g,'<br>')
+      console.log(convertedComments);
+      emailBody += `<tr><td style="padding:5px;text-align:center; width:10%;">${slno}</td><td style="padding:5px;text-align:center;width:20%;">${user.displayClient}</td><td style="padding:5px;text-align:center;width:10%;">${user.assigneeName}</td><td style="padding:5px;text-align:center;width:10%;">${user.jiraTickets == '' ? '' : user.jiraTickets}</td><td style="padding:5px;text-align:center;width:10%;">${user.SSLType}</td><td style="padding:5px;text-align:center;width:90%;">${convertedComments == '' ? '' : convertedComments}</td></tr>`;
       slno = slno + 1
     });
     emailBody += '</table>'

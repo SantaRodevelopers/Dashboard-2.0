@@ -95,8 +95,8 @@ function PreviewHandover({ ele, setEdit, mainData, edit, setMainData, temp, hand
 
         {RenderFlag ? <td className={cssClass}>{ele.SSLType}</td> : <td className={cssClass}>{ele.type}</td>}
 
-        <td className={cssClass}>{editFlag ? <textarea id={ele.id} className='outline-none w-full text-center ' onChange={(event) => { setEditedJiraTickets(event.target.value); setJiraEdited(true) }}>{saveFlag && ele.jiraTickets}</textarea> : saveFlag ? editedJiraTickets : ele.jiraTickets}</td>
-        <td className={cssClass}>{editFlag ? <textarea id={ele.id} className='outline-none w-full text-center ' onChange={(event) => { setEditedComments(event.target.value); setCommentsEdited(true) }}>{saveFlag && ele.comments}</textarea> : saveFlag ? editedComments : ele.comments}</td>
+        <td className={cssClass}>{editFlag ? <textarea id={ele.id}  className='outline-none w-full text-center ' onChange={(event) => { setEditedJiraTickets(event.target.value); setJiraEdited(true) }}>{saveFlag && ele.jiraTickets}</textarea> : saveFlag ? editedJiraTickets : ele.jiraTickets}</td>
+        <td className={cssClass}>{editFlag ? <textarea id={ele.id}  className='outline-none w-full text-center ' onChange={(event) => { setEditedComments(event.target.value); setCommentsEdited(true) }}>{saveFlag && ele.comments}</textarea> : saveFlag ? editedComments : ele.comments}</td>
         <div className='flex gap-2 my-2'>
           <div onClick={handleEdit} className={`w-9 h-9 flex items-center justify-center rounded-full ${editFlag ? 'invisible' : 'bg-blue-500 text-white visible'}`}>
             <i className="fa-regular fa-pen-to-square"></i>

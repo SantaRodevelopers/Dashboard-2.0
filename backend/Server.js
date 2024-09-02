@@ -10,8 +10,8 @@ app.use(bodyParser.json());
 const transporter = nodemailer.createTransport({
   service: 'gmail',
   auth: {
-    user: 'springboot.developers@gmail.com', // Replace with your email
-    pass: 'vzhv chsm xydx gtgt' // Replace with your generated app password
+    user: 'copsepsilon@gmail.com', 
+    pass: 'irlz rxcu apjo rqly' 
   }
 });
 
@@ -19,8 +19,8 @@ app.post('/send-email', (req, res) => {
   const { subject, body } = req.body;
 
   const mailOptions = {
-    from: 'springboot.developers@gmail.com', // Replace with your email
-    to: 'sk2088458@gmail.com', // Replace with recipient email or make it dynamic sk2088458@gmail.com;rohitrk21122000@gmail.com
+    from: 'copsepsilon@gmail.com', 
+    to: 'sk2088458@gmail.com;rohitrk21122000@gmail.com;rajiv.dey@epsilon.com',  //sk2088458@gmail.com;rohitrk21122000@gmail.com
     subject: subject,
     html: body
    //;rohitrk21122000@gmail.com

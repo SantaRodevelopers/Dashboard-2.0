@@ -8,7 +8,7 @@ import { PiBooksLight } from "react-icons/pi";
 import { IoMdNotificationsOutline } from "react-icons/io";
 import NavItem from './NavItem';
 import UserProfile from './UserProfile';
-import logo from '../assets/epsilon_logo_main_2.jpg'
+import logo from '../assets/COPS_Dashboard_logo.png'
 
 const Navbar = () => {
     const [navItems, setNavItems] = useState([]);
@@ -24,7 +24,8 @@ const Navbar = () => {
     <div className='bg-blue-600 w-full py-2 text-white h-full relative'>
    
       <div className=" ml-10 mr-10 mb-6  ">
-         <img src={logo}  className='mix-blend-color-burn ' alt="logo" />
+         <img src={logo}  className='w-52 mt-3' alt="logo" />
+         {/* className='mix-blend-color-burn  */}
         </div>
  
 
