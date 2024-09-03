@@ -1,8 +1,7 @@
 import React from 'react'
 
 
-function Header({ scrollFlag, handleShiftChange, shiftValue, currentDate, handleShare, type, sendType }) {
-
+function Header({ scrollFlag, handleShiftChange, shiftValue, currentDate, handleShare, type, sendType,HandoverMember }) {
 
     return (
         <>
@@ -18,8 +17,8 @@ function Header({ scrollFlag, handleShiftChange, shiftValue, currentDate, handle
                         <option value="NA">NA</option>
                     </select>
 
-                    <button className={`py-1 px-3 ${shiftValue=='Select Shift'? 'bg-gray-400': 'bg-blue-600 hover:bg-blue-400 ' } transition-all duration-100 rounded-md text-white`}  onClick={handleShare}
-                    onMouseDown={sendType === 'WA' && handleShare} disabled={shiftValue=='Select Shift'&& true}  >Share</button>
+                    <button className={`py-1 px-3 ${(shiftValue == 'Select Shift' || !Boolean(HandoverMember))? 'bg-gray-400': 'bg-blue-600 hover:bg-blue-400 ' } transition-all duration-100 rounded-md text-white`}  onClick={handleShare}
+                    onMouseDown={sendType === 'WA' && handleShare} disabled={(shiftValue == 'Select Shift' || !Boolean(HandoverMember)) && true}  >Share</button>
                 </div>
             </div>
            

@@ -125,12 +125,14 @@ function HandoverRows({ allotted, getClientsOrTools, setMainData, mainData, temp
 
                     {/* <td><textarea value={SSLType} onChange={(event) => { setSSLType(event.target.value) }} className='w-full px-2 py-1 text-sm h-20 border-2 border-gray-300' name="" id="" ></textarea></td> */}
 
-                    <select onChange={(event) => { setSSLType(event.target.value) }} id="changeToSelect" className="w-full px-2 py-1 text-sm h-9 border-2 border-gray-300">
-                        <option value="Select">Select</option>
-                        <option value="Renewal">Renewal</option>
-                        <option value="New">New</option>
-                        <option value="Decommission">Decommission </option>
-                    </select>
+                    <td>
+                        <select onChange={(event) => { setSSLType(event.target.value) }} id="changeToSelect" className="w-full px-2 py-1 text-sm h-9 border-2 border-gray-300">
+                            <option value="Select">Select</option>
+                            <option value="Renewal">Renewal</option>
+                            <option value="New">New</option>
+                            <option value="Decommission">Decommission </option>
+                        </select>
+                    </td>
 
                     <td><textarea value={jiraTickets} onChange={(event) => { setJiraTickets(event.target.value) }} className='w-full px-2 py-1 text-sm h-20 border-2 border-gray-300' name="" id="" ></textarea></td>
                     <td><textarea value={comments} onChange={(event) => { setComments(event.target.value) }} className='w-full px-2 py-1 text-sm h-20 border-2 border-gray-300' name="" id="" ></textarea></td>
@@ -162,12 +164,13 @@ function HandoverRows({ allotted, getClientsOrTools, setMainData, mainData, temp
                             <p>{assigneeName}</p>
                         </td>
 
-
-                        <select onChange={(event) => { setType(event.target.value) }} id="changeToSelect" className="w-full px-2 py-1 text-sm h-9 border-2 border-gray-300">
-                            <option value="Select">Select</option>
-                            <option value="Current Shift Updates">Current Shift Updates</option>
-                            <option value="Follow Up">Follow Up</option>
-                        </select>
+                        <td>
+                            <select onChange={(event) => { setType(event.target.value) }} id="changeToSelect" className="w-full px-2 py-1 text-sm h-9 border-2 border-gray-300">
+                                <option value="Select">Select</option>
+                                <option value="Current Shift Updates">Current Shift Updates</option>
+                                <option value="Follow Up">Follow Up</option>
+                            </select>
+                        </td>
 
 
                         <td>

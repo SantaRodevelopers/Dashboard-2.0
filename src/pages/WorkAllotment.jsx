@@ -269,7 +269,7 @@ const WorkAllotment = () => {
 
   return (
     <div className=' font-poppins w-full '>
-      <Header sendType={'WA'} scrollFlag={scrollFlag} handleShiftChange={handleShiftChange} type={type} shiftValue={shiftValue} currentDate={currentDate} handleShare={handleShare} />
+      <Header sendType={'WA'} scrollFlag={scrollFlag} handleShiftChange={handleShiftChange} type={type} shiftValue={shiftValue} currentDate={currentDate} handleShare={handleShare} HandoverMember={HandoverMember}/>
       <div className='flex p-4 flex-col gap-2 items-start justify-between'>
 
         <Shiftmembersdetails currentShiftMemebers={currentShiftMemebers} getHandoverMember={getHandoverMember} shiftValue={shiftValue} inShift={inShift} onLeave={onLeave} onWeekOff={onWeekOff} setInShift={setInShift} setOnLeave={setOnLeave} setOnWeekOff={setOnWeekOff} />
