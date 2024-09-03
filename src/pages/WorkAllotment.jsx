@@ -273,11 +273,11 @@ const WorkAllotment = () => {
       <div className='flex p-4 flex-col gap-2 items-start justify-between'>
 
         <Shiftmembersdetails currentShiftMemebers={currentShiftMemebers} getHandoverMember={getHandoverMember} shiftValue={shiftValue} inShift={inShift} onLeave={onLeave} onWeekOff={onWeekOff} setInShift={setInShift} setOnLeave={setOnLeave} setOnWeekOff={setOnWeekOff} />
-        <SelectHandoverMember currentShiftMemebers={currentShiftMemebers} getHandoverMember={getHandoverMember} />
+        <SelectHandoverMember currentShiftMemebers={currentShiftMemebers} getHandoverMember={getHandoverMember} shiftValue={shiftValue} />
 
       </div>
 
-      <div className='p-4'>
+      <div className='p-4 transition-transform'>
         <table className='mt-6 w-full border-2 border-white border-separate'>
           <tr>
             <th className='p-2 bg-blue-600 text-white rounded-s-lg w-1/4'>Shift Members</th>

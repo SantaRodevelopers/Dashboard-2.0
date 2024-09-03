@@ -25,6 +25,7 @@ const Navbar = () => {
    
       <div className=" ml-10 mr-10 mb-6  ">
          <img src={logo}  className='w-52 mt-3' alt="logo" />
+         
          {/* className='mix-blend-color-burn  */}
         </div>
  

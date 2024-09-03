@@ -59,13 +59,18 @@ function HandoverRows({ allotted, getClientsOrTools, setMainData, mainData, temp
                 RenderFlag ?
                     toast.error('Please select SSL Request Type', {
                         duration: 800,
-                    }) :
+                    }) 
+                   :
                     toast.error('Please select Handover Type', {
                         duration: 800,
                     })
+
             }
 
-        } else {
+        }
+
+
+        else {
             RenderFlag ?
                 toast.error('Please select the Domain and Assignee Name', {
                     duration: 800
@@ -75,6 +80,9 @@ function HandoverRows({ allotted, getClientsOrTools, setMainData, mainData, temp
                     duration: 800
                 })
         }
+
+
+  console.log(client.type);
 
         // toLocalStorage()
 
